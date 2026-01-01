@@ -142,33 +142,34 @@
         }
         .json-section h3 {
             color: #2c3e50;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             font-size: 1.2em;
+        }
+        .json-section p {
+            font-size: 0.9em; 
+            color: #7f8c8d; 
+            margin-bottom: 12px;
         }
         .json-links {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
+            gap: 8px;
         }
         .json-link { 
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             background: #e3f2fd; 
             color: #1976d2; 
-            padding: 12px 16px; 
+            padding: 10px 14px; 
             text-decoration: none; 
             border-radius: 10px;
-            font-size: 0.95em;
+            font-size: 0.9em;
             transition: all 0.2s;
         }
         .json-link:hover {
             background: #bbdefb;
             transform: translateX(3px);
-        }
-        .json-link img {
-            width: 24px;
-            height: 18px;
         }
         
         footer {
@@ -244,9 +245,7 @@
 
             <div class="json-section">
                 <h3>☁️ Препоръчани стихове</h3>
-                <p style="font-size: 0.9em; color: #7f8c8d; margin-bottom: 15px;">
-                    Избери език и изтегли готов файл:
-                </p>
+                <p>Избери език и изтегли готов файл:</p>
                 <div class="json-links">
                     <a href="verses/en.json" class="json-link" download>
                         🇬🇧 English
@@ -271,6 +270,12 @@
                     </a>
                     <a href="verses/pl.json" class="json-link" download>
                         🇵🇱 Polski
+                    </a>
+                    <a href="verses/uk.json" class="json-link" download>
+                        🇺🇦 Українська
+                    </a>
+                    <a href="verses/cs.json" class="json-link" download>
+                        🇨🇿 Čeština
                     </a>
                 </div>
             </div>
