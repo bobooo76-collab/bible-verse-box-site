@@ -19,7 +19,7 @@
             margin: 0 auto;
             display: flex;
             gap: 0;
-            align-items: flex-start;
+            align-items: flex-start;о
             flex-wrap: wrap;
         }
         
@@ -212,20 +212,19 @@
             max-width: 1200px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: 1fr 1fr;  /* 2 колони като горе */
+            grid-template-columns: 1fr 1fr;  /* 2 равни колони */
             gap: 0;
             padding: 0 20px;
         }
-        .footer-wrapper::before {
-            content: '';  /* Празна лява колона */
+        .footer-left {
+            /* Празна лява страна */
         }
-        .footer {
+        footer {
             text-align: center;
             margin-top: 20px;
             color: white;
             font-size: 0.85em;
         }
-
         
         /* Responsive */
         @media (max-width: 768px) {
@@ -376,12 +375,13 @@
     </div>
     
     <!-- Footer centered under right column -->
-    <div class="footer-wrapper">
-        <footer>
-            <p data-en="Developed with ❤️ for God's glory" data-bg="Разработено с ❤️ за Божията слава">
-                Developed with ❤️ for God's glory
-            </p>
-        </footer>
+<div class="footer-wrapper">
+    <div class="footer-left"></div>
+    <footer>
+        <p data-en="Developed with ❤️ for God's glory" data-bg="Разработено с ❤️ за Божията слава">
+            Developed with ❤️ for God's glory
+        </p>
+    </footer>
     </div>
 
     <script>
