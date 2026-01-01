@@ -11,7 +11,7 @@
             font-family: 'Segoe UI', Tahoma, sans-serif; 
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 15px;
+            padding: 40px 20px 20px 20px;
         }
         
         .container { 
@@ -19,7 +19,7 @@
             margin: 0 auto;
             display: flex;
             gap: 0;
-            align-items: center;
+            align-items: flex-start;
             flex-wrap: wrap;
         }
         
@@ -30,7 +30,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 15px;
+            gap: 25px;
         }
         
         /* Language switcher above phone */
@@ -210,7 +210,17 @@
             transform: translateX(3px);
         }
         
+        /* Footer - centered under right column */
+        .footer-wrapper {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: flex-end;
+        }
         footer {
+            flex: 1;
+            min-width: 350px;
             text-align: center;
             margin-top: 20px;
             color: white;
@@ -219,8 +229,15 @@
         
         /* Responsive */
         @media (max-width: 768px) {
+            body {
+                padding: 20px 15px 15px 15px;
+            }
             .container {
                 flex-direction: column;
+                align-items: center;
+            }
+            .phone-section {
+                gap: 15px;
             }
             .phone-frame {
                 width: 250px;
@@ -237,6 +254,12 @@
             }
             .features ul {
                 grid-template-columns: 1fr;
+            }
+            .footer-wrapper {
+                justify-content: center;
+            }
+            footer {
+                min-width: auto;
             }
         }
     </style>
@@ -353,11 +376,14 @@
         </div>
     </div>
     
-    <footer>
-        <p data-en="Developed with ❤️ for God's glory" data-bg="Разработено с ❤️ за Божията слава">
-            Developed with ❤️ for God's glory
-        </p>
-    </footer>
+    <!-- Footer centered under right column -->
+    <div class="footer-wrapper">
+        <footer>
+            <p data-en="Developed with ❤️ for God's glory" data-bg="Разработено с ❤️ за Божията слава">
+                Developed with ❤️ for God's glory
+            </p>
+        </footer>
+    </div>
 
     <script>
         // Carousel automatic rotation
