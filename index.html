@@ -10,92 +10,290 @@
             font-family: 'Segoe UI', Tahoma, sans-serif; 
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            padding: 20px;
         }
         .container { 
-            background: white; 
-            padding: 40px; 
-            border-radius: 20px; 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            max-width: 500px;
-            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 50px;
+            align-items: center;
+            flex-wrap: wrap;
         }
-        h1 { color: #2c3e50; margin-bottom: 20px; font-size: 2.2em; }
+        
+        /* Лява страна - Каросел с телефон */
+        .phone-section {
+            flex: 1;
+            min-width: 300px;
+            display: flex;
+            justify-content: center;
+        }
+        .phone-frame {
+            position: relative;
+            width: 300px;
+            height: 600px;
+            background: #1a1a1a;
+            border-radius: 40px;
+            padding: 15px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+        }
+        .phone-notch {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 25px;
+            background: #1a1a1a;
+            border-radius: 0 0 15px 15px;
+            z-index: 10;
+        }
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: white;
+            border-radius: 30px;
+            overflow: hidden;
+            position: relative;
+        }
+        .carousel {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        .carousel-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        .carousel-slide.active {
+            opacity: 1;
+        }
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Дясна страна - Информация */
+        .info-section {
+            flex: 1;
+            min-width: 350px;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        h1 { 
+            color: #2c3e50; 
+            margin-bottom: 15px; 
+            font-size: 2.2em;
+        }
+        .subtitle {
+            font-size: 1.2em; 
+            color: #7f8c8d; 
+            margin-bottom: 25px;
+        }
         .download-btn { 
             background: #e74c3c; 
             color: white; 
             padding: 15px 30px; 
             border: none; 
             border-radius: 50px; 
-            font-size: 1.2em; 
+            font-size: 1.1em; 
             cursor: pointer; 
-            margin: 20px 0;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 25px;
             transition: all 0.3s;
         }
-        .download-btn:hover { background: #c0392b; transform: translateY(-2px); }
-        .features { 
-            text-align: left; 
-            margin: 30px 0; 
-            background: #f8f9fa; 
-            padding: 20px; 
-            border-radius: 10px;
+        .download-btn:hover { 
+            background: #c0392b; 
+            transform: translateY(-2px); 
         }
-        .features ul { list-style: none; }
-        .features li { padding: 8px 0; font-size: 1.1em; }
-        .features li:before { content: "✨"; margin-right: 10px; }
+        .features { 
+            margin: 25px 0;
+        }
+        .features h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        .features ul { 
+            list-style: none; 
+        }
+        .features li { 
+            padding: 8px 0; 
+            font-size: 1em;
+            color: #555;
+        }
+        .features li:before { 
+            content: "✨"; 
+            margin-right: 10px; 
+        }
+        
+        /* JSON линкове стил */
         .json-section { 
-            margin-top: 30px; 
-            padding: 20px; 
-            background: #e3f2fd; 
-            border-radius: 10px;
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 2px solid #ecf0f1;
+        }
+        .json-section h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        .json-links {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
         }
         .json-link { 
-            display: inline-block; 
-            background: #2196f3; 
-            color: white; 
-            padding: 10px 20px; 
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #e3f2fd; 
+            color: #1976d2; 
+            padding: 12px 16px; 
             text-decoration: none; 
-            border-radius: 25px; 
-            margin: 5px;
+            border-radius: 10px;
+            font-size: 0.95em;
+            transition: all 0.2s;
+        }
+        .json-link:hover {
+            background: #bbdefb;
+            transform: translateX(3px);
+        }
+        .json-link img {
+            width: 24px;
+            height: 18px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: white;
+            font-size: 0.9em;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .phone-frame {
+                width: 250px;
+                height: 500px;
+            }
+            .info-section {
+                padding: 25px;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+            .json-links {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>📖 Bible Verse Memorizer</h1>
-        <p style="font-size: 1.3em; color: #7f8c8d; margin-bottom: 20px;">
-            Учи и запомняй библейски стихове лесно и бързо
-        </p>
-        
-        <a href="https://play.google.com/store/apps/details?id=твоят.package.name" 
-           class="download-btn" target="_blank">
-            📱 Изтегли от Google Play
-        </a>
-        
-        <div class="features">
-            <h3 style="text-align: center; margin-bottom: 15px;">🎯 Основни функции</h3>
-            <ul>
-                <li>Многоезична поддръжка (Български, English...)</li>
-                <li>Интерактивни планове за учене</li>
-                <li>Анимации и прогрес</li>
-                <li>Ежедневни напомняния</li>
-                <li>Статистики и постижения</li>
-            </ul>
+        <!-- Лява страна - Телефон с каросел -->
+        <div class="phone-section">
+            <div class="phone-frame">
+                <div class="phone-notch"></div>
+                <div class="phone-screen">
+                    <div class="carousel">
+                        <div class="carousel-slide active">
+                            <img src="screenshots/screenshot1.jpg" alt="App Screenshot 1">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="screenshots/screenshot2.jpg" alt="App Screenshot 2">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="screenshots/screenshot3.jpg" alt="App Screenshot 3">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+        
+        <!-- Дясна страна - Информация -->
+        <div class="info-section">
+            <h1>📖 Bible Verse Memorizer</h1>
+            <p class="subtitle">Учи и запомняй библейски стихове лесно и бързо</p>
+            
+            <a href="https://play.google.com/store/apps/details?id=YOUR_PACKAGE_NAME" 
+               class="download-btn" target="_blank">
+                📱 Изтегли от Google Play
+            </a>
+            
+            <div class="features">
+                <h3>🎯 Основни функции</h3>
+                <ul>
+                    <li>Многоезична поддръжка</li>
+                    <li>Интерактивни планове за учене</li>
+                    <li>Анимации и прогрес</li>
+                    <li>Ежедневни напомняния</li>
+                    <li>Статистики и постижения</li>
+                </ul>
+            </div>
 
-        <div class="json-section">
-            <h3 style="margin-bottom: 15px;">📥 JSON файлове за импорт</h3>
-            <a href="verses/bg.json" class="json-link" download>🇧🇬 Български стихове</a>
-            <a href="verses/en.json" class="json-link" download>🇺🇸 English verses</a>
-            <br>
-            <small>Използвай в приложението: Import → JSON File</small>
+            <div class="json-section">
+                <h3>☁️ Препоръчани стихове</h3>
+                <p style="font-size: 0.9em; color: #7f8c8d; margin-bottom: 15px;">
+                    Избери език и изтегли готов файл:
+                </p>
+                <div class="json-links">
+                    <a href="verses/en.json" class="json-link" download>
+                        🇬🇧 English
+                    </a>
+                    <a href="verses/bg.json" class="json-link" download>
+                        🇧🇬 Български
+                    </a>
+                    <a href="verses/ru.json" class="json-link" download>
+                        🇷🇺 Руски
+                    </a>
+                    <a href="verses/ro.json" class="json-link" download>
+                        🇷🇴 Română
+                    </a>
+                    <a href="verses/es.json" class="json-link" download>
+                        🇪🇸 Español
+                    </a>
+                    <a href="verses/de.json" class="json-link" download>
+                        🇩🇪 Deutsch
+                    </a>
+                    <a href="verses/it.json" class="json-link" download>
+                        🇮🇹 Italiano
+                    </a>
+                    <a href="verses/pl.json" class="json-link" download>
+                        🇵🇱 Polski
+                    </a>
+                </div>
+            </div>
         </div>
-        
-        <p style="margin-top: 30px; color: #95a5a6; font-size: 0.9em;">
-            Разработено с ❤️ за Божията слава
-        </p>
     </div>
+    
+    <footer>
+        <p>Разработено с ❤️ за Божията слава</p>
+    </footer>
+
+    <script>
+        // Каросел автоматична смяна
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+        
+        function nextSlide() {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
+        
+        // Смяна на слайд на всеки 3 секунди
+        setInterval(nextSlide, 3000);
+    </script>
 </body>
 </html>
