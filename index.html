@@ -211,17 +211,21 @@
             width: 100%;
             max-width: 1200px;
             margin: 0 auto;
-            display: flex;
-            justify-content: flex-end;
+            display: grid;
+            grid-template-columns: 1fr 1fr;  /* 2 колони като горе */
+            gap: 0;
+            padding: 0 20px;
         }
-        footer {
-            flex: 1;
-            min-width: 350px;
+        .footer-wrapper::before {
+            content: '';  /* Празна лява колона */
+        }
+        .footer {
             text-align: center;
-            margin-top: 30px;
+            margin-top: 20px;
             color: white;
             font-size: 0.85em;
         }
+
         
         /* Responsive */
         @media (max-width: 768px) {
