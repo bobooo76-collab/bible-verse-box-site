@@ -11,15 +11,30 @@
             font-family: 'Segoe UI', Tahoma, sans-serif; 
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 15px;
         }
         
-        /* Language switcher */
+        .container { 
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 0;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        /* Left side - Phone carousel */
+        .phone-section {
+            flex: 1;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        /* Language switcher above phone */
         .lang-switcher {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
             display: flex;
             gap: 10px;
             background: white;
@@ -48,26 +63,10 @@
             background: #5568d3;
         }
         
-        .container { 
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            gap: 0;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        
-        /* Left side - Phone carousel */
-        .phone-section {
-            flex: 1;
-            min-width: 300px;
-            display: flex;
-            justify-content: center;
-        }
         .phone-frame {
             position: relative;
-            width: 300px;
-            height: 600px;
+            width: 280px;
+            height: 560px;
             background: #1a1a1a;
             border-radius: 40px;
             padding: 15px;
@@ -118,31 +117,31 @@
             flex: 1;
             min-width: 350px;
             background: white;
-            padding: 40px;
+            padding: 30px;
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
         h1 { 
             color: #2c3e50; 
-            margin-bottom: 15px; 
-            font-size: 2.2em;
+            margin-bottom: 10px; 
+            font-size: 2em;
         }
         .subtitle {
-            font-size: 1.2em; 
+            font-size: 1.1em; 
             color: #7f8c8d; 
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
         .download-btn { 
             background: #e74c3c; 
             color: white; 
-            padding: 15px 30px; 
+            padding: 12px 28px; 
             border: none; 
             border-radius: 50px; 
-            font-size: 1.1em; 
+            font-size: 1em; 
             cursor: pointer; 
             text-decoration: none;
             display: inline-block;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             transition: all 0.3s;
         }
         .download-btn:hover { 
@@ -150,41 +149,44 @@
             transform: translateY(-2px); 
         }
         .features { 
-            margin: 25px 0;
+            margin: 20px 0;
         }
         .features h3 {
             color: #2c3e50;
-            margin-bottom: 15px;
-            font-size: 1.3em;
+            margin-bottom: 12px;
+            font-size: 1.2em;
         }
         .features ul { 
-            list-style: none; 
+            list-style: none;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px 15px;
         }
         .features li { 
-            padding: 8px 0; 
-            font-size: 1em;
+            padding: 6px 0; 
+            font-size: 0.95em;
             color: #555;
         }
         .features li:before { 
             content: "✨"; 
-            margin-right: 10px; 
+            margin-right: 8px; 
         }
         
         /* JSON links style */
         .json-section { 
-            margin-top: 30px;
-            padding-top: 25px;
+            margin-top: 20px;
+            padding-top: 20px;
             border-top: 2px solid #ecf0f1;
         }
         .json-section h3 {
             color: #2c3e50;
-            margin-bottom: 10px;
-            font-size: 1.2em;
+            margin-bottom: 8px;
+            font-size: 1.1em;
         }
         .json-section p {
-            font-size: 0.9em; 
+            font-size: 0.85em; 
             color: #7f8c8d; 
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
         .json-links {
             display: grid;
@@ -210,9 +212,9 @@
         
         footer {
             text-align: center;
-            margin-top: 30px;
+            margin-top: 20px;
             color: white;
-            font-size: 0.9em;
+            font-size: 0.85em;
         }
         
         /* Responsive */
@@ -233,23 +235,22 @@
             .json-links {
                 grid-template-columns: 1fr;
             }
-            .lang-switcher {
-                top: 10px;
-                right: 10px;
+            .features ul {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Language Switcher -->
-    <div class="lang-switcher">
-        <button class="lang-btn active" data-lang="en">🇬🇧 English</button>
-        <button class="lang-btn" data-lang="bg">🇧🇬 Български</button>
-    </div>
-
     <div class="container">
         <!-- Left side - Phone with carousel -->
         <div class="phone-section">
+            <!-- Language Switcher above phone -->
+            <div class="lang-switcher">
+                <button class="lang-btn active" data-lang="en">🇬🇧 English</button>
+                <button class="lang-btn" data-lang="bg">🇧🇬 Български</button>
+            </div>
+            
             <div class="phone-frame">
                 <div class="phone-notch"></div>
                 <div class="phone-screen">
