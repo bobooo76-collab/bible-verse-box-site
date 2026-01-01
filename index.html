@@ -387,34 +387,50 @@
     </div>
 
     <script>
-    // Carousel slide animation (right to left)
+    // Carousel slide animation (right to left) - FIXED
     let currentSlide = 0;
     const slides = document.querySelectorAll('.carousel-slide');
     const totalSlides = slides.length;
     
     function nextSlide() {
-        // Mark current as previous (slide out left)
+        // Remove active from current slide (move it to left)
         slides[currentSlide].classList.remove('active');
         slides[currentSlide].classList.add('prev');
         
-        // Move to next slide
-        currentSlide = (currentSlide + 1) % totalSlides;
+        // Calculate next slide
+        const nextSlideIndex = (currentSlide + 1) % totalSlides;
         
-        // Reset all other slides
+        // Reset ALL slides that are not current or next
         slides.forEach((slide, index) => {
-            if (index !== currentSlide) {
-                setTimeout(() => {
-                    slide.classList.remove('prev');
-                }, 600); // Match transition duration
+            if (index !== currentSlide && index !== nextSlideIndex) {
+                slide.classList.remove('active', 'prev');
             }
         });
         
-        // Show new slide (slide in from right)
+        // Update current slide
+        currentSlide = nextSlideIndex;
+        
+        // Show new slide (from right)
         slides[currentSlide].classList.add('active');
+        
+        // Clean up prev class after animation
+        setTimeout(() => {
+            slides.forEach((slide, index) => {
+                if (index !== currentSlide) {
+                    slide.classList.remove('prev');
+                }
+            });
+        }, 600);
     }
     
-    // Initialize first slide
-    slides[currentSlide].classList.add('active');
+    // Initialize - hide all except first
+    slides.forEach((slide, index) => {
+        if (index === 0) {
+            slide.classList.add('active');
+        } else {
+            slide.classList.remove('active', 'prev');
+        }
+    });
     
     // Change slide every 3 seconds
     setInterval(nextSlide, 3000);
@@ -423,15 +439,12 @@
     const langButtons = document.querySelectorAll('.lang-btn');
     const translatableElements = document.querySelectorAll('[data-en][data-bg]');
     
-    // Auto-detect browser language
     function detectLanguage() {
         const browserLang = navigator.language || navigator.userLanguage;
         return browserLang.startsWith('bg') ? 'bg' : 'en';
     }
     
-    // Switch language function
     function switchLanguage(lang) {
-        // Update all translatable elements
         translatableElements.forEach(el => {
             const text = el.getAttribute('data-' + lang);
             if (text) {
@@ -439,7 +452,6 @@
             }
         });
         
-        // Update active button
         langButtons.forEach(btn => {
             btn.classList.remove('active');
             if (btn.getAttribute('data-lang') === lang) {
@@ -447,14 +459,10 @@
             }
         });
         
-        // Update page language
         document.documentElement.lang = lang;
-        
-        // Save preference
         localStorage.setItem('preferred-language', lang);
     }
     
-    // Language button click handlers
     langButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             const lang = btn.getAttribute('data-lang');
@@ -462,12 +470,12 @@
         });
     });
     
-    // Initialize language on page load
     window.addEventListener('DOMContentLoaded', () => {
         const savedLang = localStorage.getItem('preferred-language');
         const lang = savedLang || detectLanguage();
         switchLanguage(lang);
     });
 </script>
+
 </body>
 </html>
