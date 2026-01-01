@@ -18,17 +18,19 @@
             max-width: 1200px;
             margin: 0 auto;
             display: flex;
-            gap: 30px;
-            align-items: center;
+            gap: 0;
+            align-items: flex-start;
             flex-wrap: wrap;
         }
         
+        /* Left side - Phone carousel */
         .phone-section {
             flex: 1;
-            min-width: 280px;
+            min-width: 300px;
             display: flex;
-            justify-content: center;
-            gap: 30px;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
         }
         
         /* Language switcher above phone */
@@ -37,7 +39,7 @@
             gap: 10px;
             background: white;
             padding: 10px;
-            border-radius: 20px;
+            border-radius: 25px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
         .lang-btn {
@@ -67,10 +69,9 @@
             height: 600px;
             background: #1a1a1a;
             border-radius: 40px;
-            padding: 40px;
+            padding: 15px;
             box-shadow: 0 30px 60px rgba(0,0,0,0.3);
         }
-            
         .phone-notch {
             display: none;
         }
@@ -81,12 +82,14 @@
             border-radius: 30px;
             overflow: hidden;
             position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .carousel {
             width: 100%;
             height: 100%;
             position: relative;
-            
         }
         .carousel-slide {
             position: absolute;
@@ -101,8 +104,7 @@
         .carousel-slide img {
             width: 100%;
             height: 100%;
-            object-fit: contain;
-            object-position: center;
+            object-fit: cover;
         }
         
         /* Right side - Information */
@@ -268,7 +270,6 @@
             </div>
             
             <div class="phone-frame">
-                /* <div class="phone-notch"></div> */
                 <div class="phone-screen">
                     <div class="carousel">
                         <div class="carousel-slide active">
