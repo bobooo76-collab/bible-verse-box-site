@@ -86,20 +86,26 @@
             align-items: center;
             justify-content: center;
         }
+        
         .carousel {
             width: 100%;
             height: 100%;
             position: relative;
+            overflow: hidden;
         }
+        
         .carousel-slide {
             position: absolute;
             width: 100%;
             height: 100%;
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
+            opacity: 1;  /* Винаги видима */
+            transform: translateX(100%);  /* Начална позиция - отдясно */
+            transition: transform 0.6s ease-in-out;
         }
         .carousel-slide.active {
-            opacity: 1;
+            transform: translateX(0);  /* Центрирана */
+        .carousel-slide.prev {
+            transform: translateX(-100%);  /* Излиза наляво */
         }
         .carousel-slide img {
             width: 100%;
@@ -380,67 +386,87 @@
     </div>
 
     <script>
-        // Carousel automatic rotation
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.carousel-slide');
+    // Carousel slide animation (right to left)
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.carousel-slide');
+    const totalSlides = slides.length;
+    
+    function nextSlide() {
+        // Mark current as previous (slide out left)
+        slides[currentSlide].classList.remove('active');
+        slides[currentSlide].classList.add('prev');
         
-        function nextSlide() {
-            slides[currentSlide].classList.remove('active');
-            currentSlide = (currentSlide + 1) % slides.length;
-            slides[currentSlide].classList.add('active');
-        }
+        // Move to next slide
+        currentSlide = (currentSlide + 1) % totalSlides;
         
-        setInterval(nextSlide, 3000);
-
-        // Language Switcher Logic
-        const langButtons = document.querySelectorAll('.lang-btn');
-        const translatableElements = document.querySelectorAll('[data-en][data-bg]');
-        
-        // Auto-detect browser language
-        function detectLanguage() {
-            const browserLang = navigator.language || navigator.userLanguage;
-            return browserLang.startsWith('bg') ? 'bg' : 'en';
-        }
-        
-        // Switch language function
-        function switchLanguage(lang) {
-            // Update all translatable elements
-            translatableElements.forEach(el => {
-                const text = el.getAttribute('data-' + lang);
-                if (text) {
-                    el.textContent = text;
-                }
-            });
-            
-            // Update active button
-            langButtons.forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.getAttribute('data-lang') === lang) {
-                    btn.classList.add('active');
-                }
-            });
-            
-            // Update page language
-            document.documentElement.lang = lang;
-            
-            // Save preference
-            localStorage.setItem('preferred-language', lang);
-        }
-        
-        // Language button click handlers
-        langButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const lang = btn.getAttribute('data-lang');
-                switchLanguage(lang);
-            });
+        // Reset all other slides
+        slides.forEach((slide, index) => {
+            if (index !== currentSlide) {
+                setTimeout(() => {
+                    slide.classList.remove('prev');
+                }, 600); // Match transition duration
+            }
         });
         
-        // Initialize language on page load
-        window.addEventListener('DOMContentLoaded', () => {
-            const savedLang = localStorage.getItem('preferred-language');
-            const lang = savedLang || detectLanguage();
+        // Show new slide (slide in from right)
+        slides[currentSlide].classList.add('active');
+    }
+    
+    // Initialize first slide
+    slides[currentSlide].classList.add('active');
+    
+    // Change slide every 3 seconds
+    setInterval(nextSlide, 3000);
+
+    // Language Switcher Logic
+    const langButtons = document.querySelectorAll('.lang-btn');
+    const translatableElements = document.querySelectorAll('[data-en][data-bg]');
+    
+    // Auto-detect browser language
+    function detectLanguage() {
+        const browserLang = navigator.language || navigator.userLanguage;
+        return browserLang.startsWith('bg') ? 'bg' : 'en';
+    }
+    
+    // Switch language function
+    function switchLanguage(lang) {
+        // Update all translatable elements
+        translatableElements.forEach(el => {
+            const text = el.getAttribute('data-' + lang);
+            if (text) {
+                el.textContent = text;
+            }
+        });
+        
+        // Update active button
+        langButtons.forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.getAttribute('data-lang') === lang) {
+                btn.classList.add('active');
+            }
+        });
+        
+        // Update page language
+        document.documentElement.lang = lang;
+        
+        // Save preference
+        localStorage.setItem('preferred-language', lang);
+    }
+    
+    // Language button click handlers
+    langButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const lang = btn.getAttribute('data-lang');
             switchLanguage(lang);
         });
-    </script>
+    });
+    
+    // Initialize language on page load
+    window.addEventListener('DOMContentLoaded', () => {
+        const savedLang = localStorage.getItem('preferred-language');
+        const lang = savedLang || detectLanguage();
+        switchLanguage(lang);
+    });
+</script>
 </body>
 </html>
