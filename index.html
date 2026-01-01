@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bible Verse Memorizer - Изтегли безплатно</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, sans-serif; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container { 
+            background: white; 
+            padding: 40px; 
+            border-radius: 20px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 500px;
+            text-align: center;
+        }
+        h1 { color: #2c3e50; margin-bottom: 20px; font-size: 2.2em; }
+        .download-btn { 
+            background: #e74c3c; 
+            color: white; 
+            padding: 15px 30px; 
+            border: none; 
+            border-radius: 50px; 
+            font-size: 1.2em; 
+            cursor: pointer; 
+            margin: 20px 0;
+            transition: all 0.3s;
+        }
+        .download-btn:hover { background: #c0392b; transform: translateY(-2px); }
+        .features { 
+            text-align: left; 
+            margin: 30px 0; 
+            background: #f8f9fa; 
+            padding: 20px; 
+            border-radius: 10px;
+        }
+        .features ul { list-style: none; }
+        .features li { padding: 8px 0; font-size: 1.1em; }
+        .features li:before { content: "✨"; margin-right: 10px; }
+        .json-section { 
+            margin-top: 30px; 
+            padding: 20px; 
+            background: #e3f2fd; 
+            border-radius: 10px;
+        }
+        .json-link { 
+            display: inline-block; 
+            background: #2196f3; 
+            color: white; 
+            padding: 10px 20px; 
+            text-decoration: none; 
+            border-radius: 25px; 
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📖 Bible Verse Memorizer</h1>
+        <p style="font-size: 1.3em; color: #7f8c8d; margin-bottom: 20px;">
+            Учи и запомняй библейски стихове лесно и бързо
+        </p>
+        
+        <a href="https://play.google.com/store/apps/details?id=твоят.package.name" 
+           class="download-btn" target="_blank">
+            📱 Изтегли от Google Play
+        </a>
+        
+        <div class="features">
+            <h3 style="text-align: center; margin-bottom: 15px;">🎯 Основни функции</h3>
+            <ul>
+                <li>Многоезична поддръжка (Български, English...)</li>
+                <li>Интерактивни планове за учене</li>
+                <li>Анимации и прогрес</li>
+                <li>Ежедневни напомняния</li>
+                <li>Статистики и постижения</li>
+            </ul>
+        </div>
+
+        <div class="json-section">
+            <h3 style="margin-bottom: 15px;">📥 JSON файлове за импорт</h3>
+            <a href="verses/bg.json" class="json-link" download>🇧🇬 Български стихове</a>
+            <a href="verses/en.json" class="json-link" download>🇺🇸 English verses</a>
+            <br>
+            <small>Използвай в приложението: Import → JSON File</small>
+        </div>
+        
+        <p style="margin-top: 30px; color: #95a5a6; font-size: 0.9em;">
+            Разработено с ❤️ за Божията слава
+        </p>
+    </div>
+</body>
+</html>
