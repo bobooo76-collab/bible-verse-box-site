@@ -156,17 +156,28 @@
         .features ul { 
             list-style: none;
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6px 15px;
+            grid-template-columns: 1fr 1fr;  /* 2 КОЛОНИ */
+            gap: 8px 20px;  /* вертикално 8px, хоризонтално 20px */
         }
         .features li { 
             padding: 6px 0; 
-            font-size: 0.95em;
+            font-size: 0.92em;
             color: #555;
+            line-height: 1.4;  /* За многоредови текстове */
+            word-wrap: break-word;  /* Пренасяне на дълги думи */
         }
         .features li:before { 
             content: "✨"; 
             margin-right: 8px; 
+            flex-shrink: 0;  /* Иконата не се свива */
+        }
+        
+        /* Responsive - 1 колона на мобилен */
+        @media (max-width: 768px) {
+            .features ul {
+                grid-template-columns: 1fr;  /* 1 КОЛОНА на мобилен */
+                gap: 6px;
+            }
         }
         
         /* JSON links style - 2 ROWS x 5 COLUMNS */
@@ -385,20 +396,85 @@ footer {
                     🎯 Key Features
                 </h3>
                 <ul>
-                    <li data-en="Multilingual support" data-bg="Многоезична поддръжка">
-                        Multilingual support
+                    <li data-en="Support for 10 languages" 
+                        data-bg="Поддържка на 10 езика">
+                        Support for 10 languages
                     </li>
-                    <li data-en="Interactive learning plans" data-bg="Интерактивни планове за учене">
-                        Interactive learning plans
+                    <li data-en="10 light color themes" 
+                        data-bg="10 светли цветови теми">
+                        10 light color themes
                     </li>
-                    <li data-en="Animations and progress tracking" data-bg="Анимации и прогрес">
-                        Animations and progress tracking
+                    <li data-en="10 dark color themes" 
+                        data-bg="10 тъмни цветови теми">
+                        10 dark color themes
                     </li>
-                    <li data-en="Daily reminders" data-bg="Ежедневни напомняния">
-                        Daily reminders
+                    <li data-en="Persistent reminder in status bar" 
+                        data-bg="Постоянно напомняне в статус бара">
+                        Persistent reminder in status bar
                     </li>
-                    <li data-en="Statistics and achievements" data-bg="Статистики и постижения">
-                        Statistics and achievements
+                    <li data-en="Reminders at your chosen time" 
+                        data-bg="Напомняния по избран от вас час">
+                        Reminders at your chosen time
+                    </li>
+                    <li data-en="Simple, beautiful and convenient design" 
+                        data-bg="Семпъл, красив и удобен дизайн">
+                        Simple, beautiful and convenient design
+                    </li>
+                    <li data-en="Font selection for verses" 
+                        data-bg="Избор на шрифт за стиховете">
+                        Font selection for verses
+                    </li>
+                    <li data-en="Font size selection" 
+                        data-bg="Избор на размера на шрифта">
+                        Font size selection
+                    </li>
+                    <li data-en="Easy button to add 50+ important Bible verses" 
+                        data-bg="Бутон за лесно добавяне на 50+ важни стихове от Библията">
+                        Easy button to add 50+ important Bible verses
+                    </li>
+                    <li data-en="Save verse archive on your phone" 
+                        data-bg="Запазване на архив на стиховете на телефона">
+                        Save verse archive on your phone
+                    </li>
+                    <li data-en="Import verses from your phone or another device" 
+                        data-bg="Импортиране на стихове от вашият телефона или друго устройство">
+                        Import verses from your phone or another device
+                    </li>
+                    <li data-en="Easy sharing in WhatsApp, Messenger, Viber, etc." 
+                        data-bg="Лесно споделяне на стиховете във WhatsApp, Messenger, Viber и др.">
+                        Easy sharing in WhatsApp, Messenger, Viber, etc.
+                    </li>
+                    <li data-en="Speak verse aloud" 
+                        data-bg="Изговаряне на стиха на глас">
+                        Speak verse aloud
+                    </li>
+                    <li data-en="Easy verse editing" 
+                        data-bg="Лесно редактиране на стихове">
+                        Easy verse editing
+                    </li>
+                    <li data-en="Protected verse deletion" 
+                        data-bg="Защитено изтриване на стихове">
+                        Protected verse deletion
+                    </li>
+                    <li data-en="Sort verses by text, reference, or folder" 
+                        data-bg="Сортиране на стиховете по текст, по препратка и по папка">
+                        Sort verses by text, reference, or folder
+                    </li>
+                    <li data-en="Easy search by verses and reference" 
+                        data-bg="Лесно търсене по стихове и референция">
+                        Easy search by verses and reference
+                    </li>
+                    <li data-en="Organization in folders" 
+                        data-bg="Организация в папки">
+                        Organization in folders
+                    </li>
+                    <li data-en="Mark learned verses" 
+                        data-bg="Отбелязване на научените стихове">
+                        Mark learned verses
+                    </li>
+                    <li data-en="Mark active verse for status bar display" 
+                        data-bg="Отбелязване на активния стих за показване в статус бара">
+                        Mark active verse for status bar display
                     </li>
                 </ul>
             </div>
