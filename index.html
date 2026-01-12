@@ -500,7 +500,7 @@
     const phoneShape = new THREE.Shape();
     const width = 2.8;
     const height = 5.5;
-    const radius = 0.2;
+    const radius = 0.3;
     
     phoneShape.moveTo(-width/2 + radius, -height/2);
     phoneShape.lineTo(width/2 - radius, -height/2);
@@ -588,7 +588,7 @@
         ctx.save();
         
         // Create rounded rectangle clipping path
-        const radius = 50; // Corner radius
+        const radius = 70; // Corner radius
         ctx.beginPath();
         ctx.moveTo(radius, 0);
         ctx.lineTo(screenCanvas.width - radius, 0);
