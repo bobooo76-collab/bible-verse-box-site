@@ -513,10 +513,10 @@
     phoneShape.quadraticCurveTo(-width/2, -height/2, -width/2 + radius, -height/2);
 
     const extrudeSettings = {
-        depth: 0.4,
+        depth: 0.2,  // НАМАЛЕНО: от 0.4 на 0.2 - телефонът е по-тънък
         bevelEnabled: true,
-        bevelThickness: 0.05,
-        bevelSize: 0.05,
+        bevelThickness: 0.03,  // Намалено малко
+        bevelSize: 0.03,       // Намалено малко
         bevelSegments: 5
     };
 
@@ -528,7 +528,7 @@
     });
     const phoneBody = new THREE.Mesh(phoneBodyGeometry, phoneBodyMaterial);
     phoneBody.rotation.x = Math.PI;
-    phoneBody.position.z = -0.2;
+    phoneBody.position.z = -0.1;  // ПРОМЕНЕНО: от -0.2 на -0.1 заради новата дебелина
     phoneBody.castShadow = true;
     phoneBody.receiveShadow = true;
     phoneGroup.add(phoneBody);
@@ -635,10 +635,10 @@
         drawScreen();
     }, 3000);
 
-    // Phone screen using PlaneGeometry for proper UV mapping
+    // Phone screen using PlaneGeometry for proper UV mapping - МАЛКО ПО-МАЛЪК
     const screenTexture = new THREE.CanvasTexture(screenCanvas);
     screenTexture.minFilter = THREE.LinearFilter;
-    const screenGeometry = new THREE.PlaneGeometry(2.5, 5.2);
+    const screenGeometry = new THREE.PlaneGeometry(2.35, 4.9);  // НАМАЛЕНО: от 2.5x5.2 на 2.35x4.9
     const screenMaterial = new THREE.MeshStandardMaterial({ 
         map: screenTexture,
         metalness: 0.1,
@@ -679,7 +679,7 @@
     // Add frame on top of screen
     const frameTexture = new THREE.CanvasTexture(frameCanvas);
     frameTexture.minFilter = THREE.LinearFilter;
-    const frameGeometry = new THREE.PlaneGeometry(2.5, 5.2);
+    const frameGeometry = new THREE.PlaneGeometry(2.35, 4.9);  // НАМАЛЕНО: да съвпада с екрана
     const frameMaterial = new THREE.MeshStandardMaterial({ 
         map: frameTexture,
         transparent: true,
@@ -691,7 +691,7 @@
     phoneGroup.add(frame);
 
     // Add edge highlight using PlaneGeometry (behind everything)
-    const edgeGeometry = new THREE.PlaneGeometry(2.52, 5.22);
+    const edgeGeometry = new THREE.PlaneGeometry(2.4, 4.95);  // МАЛКО ПО-ГОЛЯМ от екрана
     const edgeMaterial = new THREE.MeshStandardMaterial({ 
         color: 0x333333,
         metalness: 0.8,
