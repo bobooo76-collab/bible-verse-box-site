@@ -648,10 +648,52 @@
     screen.position.z = 0.23;
     phoneGroup.add(screen);
 
-    // Add edge highlight using PlaneGeometry
+    // Create black rounded frame to hide sharp corners
+    const frameCanvas = document.createElement('canvas');
+    frameCanvas.width = 1080;
+    frameCanvas.height = 2160;
+    const frameCtx = frameCanvas.getContext('2d');
+    
+    // Fill entire canvas with black
+    frameCtx.fillStyle = '#000000';
+    frameCtx.fillRect(0, 0, frameCanvas.width, frameCanvas.height);
+    
+    // Cut out rounded rectangle in the middle (this creates the frame effect)
+    frameCtx.globalCompositeOperation = 'destination-out';
+    const frameRadius = 100; // Slightly smaller than screen radius
+    const frameInset = 20; // Border thickness
+    
+    frameCtx.beginPath();
+    frameCtx.moveTo(frameInset + frameRadius, frameInset);
+    frameCtx.lineTo(frameCanvas.width - frameInset - frameRadius, frameInset);
+    frameCtx.quadraticCurveTo(frameCanvas.width - frameInset, frameInset, frameCanvas.width - frameInset, frameInset + frameRadius);
+    frameCtx.lineTo(frameCanvas.width - frameInset, frameCanvas.height - frameInset - frameRadius);
+    frameCtx.quadraticCurveTo(frameCanvas.width - frameInset, frameCanvas.height - frameInset, frameCanvas.width - frameInset - frameRadius, frameCanvas.height - frameInset);
+    frameCtx.lineTo(frameInset + frameRadius, frameCanvas.height - frameInset);
+    frameCtx.quadraticCurveTo(frameInset, frameCanvas.height - frameInset, frameInset, frameCanvas.height - frameInset - frameRadius);
+    frameCtx.lineTo(frameInset, frameInset + frameRadius);
+    frameCtx.quadraticCurveTo(frameInset, frameInset, frameInset + frameRadius, frameInset);
+    frameCtx.closePath();
+    frameCtx.fill();
+    
+    // Add frame on top of screen
+    const frameTexture = new THREE.CanvasTexture(frameCanvas);
+    frameTexture.minFilter = THREE.LinearFilter;
+    const frameGeometry = new THREE.PlaneGeometry(2.5, 5.2);
+    const frameMaterial = new THREE.MeshStandardMaterial({ 
+        map: frameTexture,
+        transparent: true,
+        metalness: 0.8,
+        roughness: 0.3
+    });
+    const frame = new THREE.Mesh(frameGeometry, frameMaterial);
+    frame.position.z = 0.24; // Slightly in front of screen
+    phoneGroup.add(frame);
+
+    // Add edge highlight using PlaneGeometry (behind everything)
     const edgeGeometry = new THREE.PlaneGeometry(2.52, 5.22);
     const edgeMaterial = new THREE.MeshStandardMaterial({ 
-        color: 0x444444,
+        color: 0x333333,
         metalness: 0.8,
         roughness: 0.2
     });
