@@ -482,11 +482,11 @@
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
     scene.add(ambientLight);
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
     directionalLight.position.set(5, 10, 7);
     directionalLight.castShadow = true;
-    directionalLight.shadow.mapSize.width = 2048;
-    directionalLight.shadow.mapSize.height = 2048;
+    directionalLight.shadow.mapSize.width = 1024;
+    directionalLight.shadow.mapSize.height = 1024;
     scene.add(directionalLight);
 
     const backLight = new THREE.DirectionalLight(0x667eea, 0.3);
@@ -523,7 +523,7 @@
     const phoneBodyGeometry = new THREE.ExtrudeGeometry(phoneShape, extrudeSettings);
     const phoneBodyMaterial = new THREE.MeshStandardMaterial({ 
         color: 0x1a1a1a,
-        metalness: 0.7,
+        metalness: 0.6,
         roughness: 0.3
     });
     const phoneBody = new THREE.Mesh(phoneBodyGeometry, phoneBodyMaterial);
@@ -536,7 +536,7 @@
     // Create canvas for screen texture - LARGER size for better fill
     const screenCanvas = document.createElement('canvas');
     screenCanvas.width = 1080;   // Much larger than screenshot
-    screenCanvas.height = 2160;  // Standard 1080x2160 phone resolution
+    screenCanvas.height = 1920;  // Standard 1080x2160 phone resolution
     const ctx = screenCanvas.getContext('2d');
 
     // Load carousel images
