@@ -576,33 +576,8 @@
         if (carouselImages[currentImageIndex]) {
             const img = carouselImages[currentImageIndex];
             
-            // Calculate aspect ratios
-            const canvasRatio = screenCanvas.width / screenCanvas.height;
-            const imgRatio = img.width / img.height;
-            
-            let sourceX, sourceY, sourceWidth, sourceHeight;
-            
-            // Use "cover" logic - crop the image to fill canvas completely
-            if (imgRatio > canvasRatio) {
-                // Image is wider than canvas - crop sides
-                sourceHeight = img.height;
-                sourceWidth = sourceHeight * canvasRatio;
-                sourceX = (img.width - sourceWidth) / 2;
-                sourceY = 0;
-            } else {
-                // Image is taller than canvas - crop top/bottom
-                sourceWidth = img.width;
-                sourceHeight = sourceWidth / canvasRatio;
-                sourceX = 0;
-                sourceY = (img.height - sourceHeight) / 2;
-            }
-            
-            // Draw cropped portion to fill entire canvas
-            ctx.drawImage(
-                img,
-                sourceX, sourceY, sourceWidth, sourceHeight,  // Source rectangle (crop from image)
-                0, 0, screenCanvas.width, screenCanvas.height  // Destination rectangle (full canvas)
-            );
+            // Simply stretch the image to fill the entire canvas
+            ctx.drawImage(img, 0, 0, screenCanvas.width, screenCanvas.height);
         } else {
             // Fallback if image not loaded - show gradient background
             const gradient = ctx.createLinearGradient(0, 0, 0, screenCanvas.height);
