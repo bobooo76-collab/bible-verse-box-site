@@ -20,11 +20,11 @@
             margin: 0 auto;
             display: flex;
             gap: 0;
-            align-items: flex-start;о
+            align-items: flex-start;
             flex-wrap: wrap;
         }
         
-        /* Left side - Phone carousel */
+        /* Left side - 3D Phone */
         .phone-section {
             flex: 1;
             min-width: 300px;
@@ -65,49 +65,30 @@
             background: #5568d3;
         }
         
-        .phone-frame {
-            position: relative;
-            width: 300px;
+        /* 3D Canvas container */
+        #phone-canvas-container {
+            width: 100%;
+            max-width: 400px;
             height: 600px;
-            background: #1a1a1a;
-            border-radius: 40px;
-            padding: 15px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
-        }
-        .phone-notch {
-            display: none;
-        }
-        .phone-screen {
-            width: 100%;
-            height: 100%;
-            background: white;
-            border-radius: 30px;
-            overflow: hidden;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .carousel {
-            width: 100%;
-            height: 100%;
             position: relative;
         }
-        .carousel-slide {
+        #phone-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        #canvas-info {
             position: absolute;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-        }
-        .carousel-slide.active {
-            opacity: 1;
-        }
-        .carousel-slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 12px;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.3);
+            padding: 5px 10px;
+            border-radius: 10px;
         }
         
         /* Right side - Information */
@@ -139,7 +120,7 @@
             cursor: pointer; 
             text-decoration: none;
             display: inline-block;
-            margin-bottom: 10px;  /* НАМАЛЕНО: от 20px на 10px */
+            margin-bottom: 10px;
             transition: all 0.3s;
         }
         .download-btn:hover { 
@@ -147,7 +128,7 @@
             transform: translateY(-2px); 
         }
         .features { 
-            margin: 10px 0;  /* НАМАЛЕНО: margin-top от 20px на 10px */
+            margin: 10px 0;
         }
         .features h3 {
             color: #2c3e50;
@@ -157,31 +138,23 @@
         .features ul { 
             list-style: none;
             display: grid;
-            grid-template-columns: 1fr 1fr;  /* 2 КОЛОНИ */
-            gap: 4px 15px;  /* НАМАЛЕНО: вертикално 4px (беше 8px), хоризонтално 20px */
+            grid-template-columns: 1fr 1fr;
+            gap: 4px 15px;
         }
         .features li { 
-            padding: 4px 0;  /* НАМАЛЕНО: от 6px на 4px */
+            padding: 4px 0;
             font-size: 0.92em;
             color: #555;
-            line-height: 1.2;  /* НАМАЛЕНО: от 1.4 на 1.3 */
-            word-wrap: break-word;  /* Пренасяне на дълги думи */
+            line-height: 1.2;
+            word-wrap: break-word;
         }
         .features li:before { 
             content: "✨"; 
             margin-right: 8px; 
-            flex-shrink: 0;  /* Иконата не се свива */
+            flex-shrink: 0;
         }
         
-        /* Responsive - 1 колона на мобилен */
-        @media (max-width: 768px) {
-            .features ul {
-                grid-template-columns: 1fr;  /* 1 КОЛОНА на мобилен */
-                gap: 6px;
-            }
-        }
-        
-        /* JSON links style - 2 ROWS x 5 COLUMNS */
+        /* JSON links style */
         .json-section { 
             margin-top: 20px;
             padding-top: 20px;
@@ -199,7 +172,7 @@
         }
         .json-links {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);  /* 5 КОЛОНИ */
+            grid-template-columns: repeat(5, 1fr);
             gap: 8px;
         }
         .json-link { 
@@ -220,137 +193,56 @@
             background: #bbdefb;
             transform: translateY(-2px);
         }
-        /* Responsive - на мобилен 2 колони */
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            color: white;
+            font-size: 0.85em;
+            white-space: nowrap;
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
+            body {
+                padding: 20px 15px 15px 15px;
+            }
+            .container {
+                flex-direction: column;
+                align-items: center;
+                gap: 30px;
+            }
+            .phone-section {
+                gap: 30px;
+                margin-bottom: 20px;
+            }
+            #phone-canvas-container {
+                max-width: 300px;
+                height: 500px;
+            }
+            .info-section {
+                padding: 25px;
+                width: 100%;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
             .json-links {
-                grid-template-columns: repeat(2, 1fr);  /* 2 колони на мобилен */
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .features ul {
+                grid-template-columns: 1fr;
+            }
+            footer {
+                font-size: 0.8em;
             }
         }
-        
-        /* Footer - centered under right column */
-.footer-wrapper {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-    padding: 0 20px;
-}
-.footer-left {
-    /* Празна лява страна на desktop */
-}
-footer {
-    text-align: center;
-    margin-top: 20px;
-    color: white;
-    font-size: 0.85em;
-    white-space: nowrap;  /* ДОБАВИ ТОВА - текстът остава на 1 ред */
-}
-
-        .json-link {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: #e3f2fd;
-    color: #1976d2;
-    padding: 10px 14px;
-    text-decoration: none;
-    border-radius: 10px;
-    font-size: 0.9em;
-    transition: all 0.2s;
-}
-.json-link:hover {
-    background: #bbdefb;
-    transform: translateX(3px);
-}
-.lang-code {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 32px;
-    height: 24px;
-    background: #1976d2;
-    color: white;
-    font-weight: bold;
-    font-size: 0.75em;
-    border-radius: 4px;
-    padding: 0 6px;
-}
-
-        
-        /* Footer - centered under right column */
-.footer-wrapper {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-    padding: 0 20px;
-}
-.footer-left {
-    /* Празна лява страна на desktop */
-}
-footer {
-    text-align: center;
-    margin-top: 20px;
-    color: white;
-    font-size: 0.85em;
-    white-space: nowrap;  /* ДОБАВИ ТОВА - текстът остава на 1 ред */
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    body {
-        padding: 20px 15px 15px 15px;
-    }
-    .container {
-        flex-direction: column;
-        align-items: center;
-        gap: 30px;  /* ДОБАВИ ТОВА */
-    }
-    .phone-section {
-        gap: 30px;
-        margin-bottom: 20px;  /* ДОБАВИ ТОВА */
-    }
-    .phone-frame {
-        width: 250px;
-        height: 500px;
-    }
-    .info-section {
-        padding: 25px;
-        width: 100%;  /* ДОБАВИ ТОВА */
-    }
-    h1 {
-        font-size: 1.8em;
-    }
-    .json-links {
-        grid-template-columns: 1fr;
-    }
-    .features ul {
-        grid-template-columns: 1fr;
-    }
-    .footer-wrapper {
-        justify-content: center;
-        grid-template-columns: 1fr;  /* ПРОМЕНИ - 1 колона на мобилен */
-        padding: 0 15px;
-    }
-    .footer-left {
-        display: none;  /* СКРИЙ на мобилен */
-    }
-    footer {
-        min-width: auto;
-        font-size: 0.8em;
-        width: 100%;
-    }
-}
-
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Left side - Phone with carousel -->
+        <!-- Left side - 3D Phone -->
         <div class="phone-section">
             <!-- Language Switcher above phone -->
             <div class="lang-switcher">
@@ -358,23 +250,13 @@ footer {
                 <button class="lang-btn" data-lang="bg">🇧🇬 Български</button>
             </div>
             
-            <div class="phone-frame">
-                <div class="phone-screen">
-                    <div class="carousel">
-                        <div class="carousel-slide active">
-                            <img src="screenshots/screenshot1.jpg" alt="App Screenshot 1">
-                        </div>
-                        <div class="carousel-slide">
-                            <img src="screenshots/screenshot2.jpg" alt="App Screenshot 2">
-                        </div>
-                        <div class="carousel-slide">
-                            <img src="screenshots/screenshot3.jpg" alt="App Screenshot 3">
-                        </div>
-                    </div>
-                </div>
+            <!-- 3D Phone Canvas -->
+            <div id="phone-canvas-container">
+                <canvas id="phone-canvas"></canvas>
+                <div id="canvas-info">Завъртете с мишката или докоснете</div>
             </div>
             
-            <!-- FOOTER ПОД ТЕЛЕФОНА -->
+            <!-- Footer under phone -->
             <footer>
                 <p data-en="Made with ❤️ for God's glory" data-bg="Създадено с ❤️ за Божията слава">
                     Made with ❤️ for God's glory
@@ -494,58 +376,43 @@ footer {
                     Choose your language and download ready-made file:
                 </p>
                 <div class="json-links">
-    <a href="verses/en.json" class="json-link" download>
-        🇬🇧 English
-    </a>
-    <a href="verses/bg.json" class="json-link" download>
-        🇧🇬 <span data-en="Bulgarian" data-bg="Български">Bulgarian</span>
-    </a>
-    <a href="verses/ru.json" class="json-link" download>
-        🇷🇺 <span data-en="Russian" data-bg="Руски">Russian</span>
-    </a>
-   <a href="verses/ro.json" class="json-link" download>
-        🇷🇴 <span data-en="Romanian" data-bg="Румънски">Romanian</span>
-    </a>
-    <a href="verses/es.json" class="json-link" download>
-        🇪🇸 <span data-en="Spanish" data-bg="Испански">Spanish</span>
-    </a>
-    <a href="verses/de.json" class="json-link" download>
-        🇩🇪 <span data-en="German" data-bg="Немски">German</span>
-    </a>
-    <a href="verses/it.json" class="json-link" download>
-        🇮🇹 <span data-en="Italian" data-bg="Италиански">Italian</span>
-    </a>
-    <a href="verses/pl.json" class="json-link" download>
-        🇵🇱 <span data-en="Polish" data-bg="Полски">Polish</span>
-    </a>
-    <a href="verses/uk.json" class="json-link" download>
-        🇺🇦 <span data-en="Ukrainian" data-bg="Украински">Ukrainian</span>
-    </a>
-    <a href="verses/cs.json" class="json-link" download>
-        🇨🇿 <span data-en="Czech" data-bg="Чешки">Czech</span>
-    </a>
-</div>
-
-
-
+                    <a href="verses/en.json" class="json-link" download>
+                        🇬🇧 English
+                    </a>
+                    <a href="verses/bg.json" class="json-link" download>
+                        🇧🇬 <span data-en="Bulgarian" data-bg="Български">Bulgarian</span>
+                    </a>
+                    <a href="verses/ru.json" class="json-link" download>
+                        🇷🇺 <span data-en="Russian" data-bg="Руски">Russian</span>
+                    </a>
+                    <a href="verses/ro.json" class="json-link" download>
+                        🇷🇴 <span data-en="Romanian" data-bg="Румънски">Romanian</span>
+                    </a>
+                    <a href="verses/es.json" class="json-link" download>
+                        🇪🇸 <span data-en="Spanish" data-bg="Испански">Spanish</span>
+                    </a>
+                    <a href="verses/de.json" class="json-link" download>
+                        🇩🇪 <span data-en="German" data-bg="Немски">German</span>
+                    </a>
+                    <a href="verses/it.json" class="json-link" download>
+                        🇮🇹 <span data-en="Italian" data-bg="Италиански">Italian</span>
+                    </a>
+                    <a href="verses/pl.json" class="json-link" download>
+                        🇵🇱 <span data-en="Polish" data-bg="Полски">Polish</span>
+                    </a>
+                    <a href="verses/uk.json" class="json-link" download>
+                        🇺🇦 <span data-en="Ukrainian" data-bg="Украински">Ukrainian</span>
+                    </a>
+                    <a href="verses/cs.json" class="json-link" download>
+                        🇨🇿 <span data-en="Czech" data-bg="Чешки">Czech</span>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
-    // Carousel automatic rotation with fade
-    let currentSlide = 0;
-    const slides = document.querySelectorAll('.carousel-slide');
-    
-    function nextSlide() {
-        slides[currentSlide].classList.remove('active');
-        currentSlide = (currentSlide + 1) % slides.length;
-        slides[currentSlide].classList.add('active');
-    }
-    
-    // Change slide every 3 seconds
-    setInterval(nextSlide, 3000);
-
     // Language Switcher Logic
     const langButtons = document.querySelectorAll('.lang-btn');
     const translatableElements = document.querySelectorAll('[data-en][data-bg]');
@@ -570,6 +437,14 @@ footer {
             }
         });
         
+        // Update canvas info text
+        const canvasInfo = document.getElementById('canvas-info');
+        if (lang === 'bg') {
+            canvasInfo.textContent = 'Завъртете с мишката или докоснете';
+        } else {
+            canvasInfo.textContent = 'Drag with mouse or touch';
+        }
+        
         document.documentElement.lang = lang;
         localStorage.setItem('preferred-language', lang);
     }
@@ -586,8 +461,277 @@ footer {
         const lang = savedLang || detectLanguage();
         switchLanguage(lang);
     });
-</script>
 
+    // ===== 3D PHONE SETUP =====
+    const container = document.getElementById('phone-canvas-container');
+    const canvas = document.getElementById('phone-canvas');
+    
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ 
+        canvas: canvas,
+        antialias: true,
+        alpha: true 
+    });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    scene.add(ambientLight);
+
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    directionalLight.position.set(5, 10, 7);
+    directionalLight.castShadow = true;
+    directionalLight.shadow.mapSize.width = 2048;
+    directionalLight.shadow.mapSize.height = 2048;
+    scene.add(directionalLight);
+
+    const backLight = new THREE.DirectionalLight(0x667eea, 0.3);
+    backLight.position.set(-5, 5, -5);
+    scene.add(backLight);
+
+    // Create phone group
+    const phoneGroup = new THREE.Group();
+
+    // Create rounded phone body using ExtrudeGeometry
+    const phoneShape = new THREE.Shape();
+    const width = 2.8;
+    const height = 5.5;
+    const radius = 0.3;
+    
+    phoneShape.moveTo(-width/2 + radius, -height/2);
+    phoneShape.lineTo(width/2 - radius, -height/2);
+    phoneShape.quadraticCurveTo(width/2, -height/2, width/2, -height/2 + radius);
+    phoneShape.lineTo(width/2, height/2 - radius);
+    phoneShape.quadraticCurveTo(width/2, height/2, width/2 - radius, height/2);
+    phoneShape.lineTo(-width/2 + radius, height/2);
+    phoneShape.quadraticCurveTo(-width/2, height/2, -width/2, height/2 - radius);
+    phoneShape.lineTo(-width/2, -height/2 + radius);
+    phoneShape.quadraticCurveTo(-width/2, -height/2, -width/2 + radius, -height/2);
+
+    const extrudeSettings = {
+        depth: 0.4,
+        bevelEnabled: true,
+        bevelThickness: 0.05,
+        bevelSize: 0.05,
+        bevelSegments: 5
+    };
+
+    const phoneBodyGeometry = new THREE.ExtrudeGeometry(phoneShape, extrudeSettings);
+    const phoneBodyMaterial = new THREE.MeshStandardMaterial({ 
+        color: 0x1a1a1a,
+        metalness: 0.7,
+        roughness: 0.3
+    });
+    const phoneBody = new THREE.Mesh(phoneBodyGeometry, phoneBodyMaterial);
+    phoneBody.rotation.x = Math.PI;
+    phoneBody.position.z = -0.2;
+    phoneBody.castShadow = true;
+    phoneBody.receiveShadow = true;
+    phoneGroup.add(phoneBody);
+
+    // Create canvas for screen texture
+    const screenCanvas = document.createElement('canvas');
+    screenCanvas.width = 1080;
+    screenCanvas.height = 2160;
+    const ctx = screenCanvas.getContext('2d');
+
+    // Load carousel images
+    const carouselImages = [];
+    const imageUrls = [
+        'screenshots/screenshot1.jpg',
+        'screenshots/screenshot2.jpg',
+        'screenshots/screenshot3.jpg'
+    ];
+    let currentImageIndex = 0;
+    let imagesLoaded = 0;
+
+    // Load all images
+    imageUrls.forEach((url, index) => {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => {
+            carouselImages[index] = img;
+            imagesLoaded++;
+            if (imagesLoaded === imageUrls.length) {
+                drawScreen(); // Draw first image when all loaded
+            }
+        };
+        img.onerror = () => {
+            console.log('Error loading image:', url);
+            imagesLoaded++;
+        };
+        img.src = url;
+    });
+
+    // Draw screen content with current carousel image
+    function drawScreen() {
+        // Clear canvas
+        ctx.clearRect(0, 0, screenCanvas.width, screenCanvas.height);
+        
+        // Draw current screenshot if available
+        if (carouselImages[currentImageIndex]) {
+            ctx.drawImage(carouselImages[currentImageIndex], 0, 0, screenCanvas.width, screenCanvas.height);
+        } else {
+            // Fallback if image not loaded - show gradient background
+            const gradient = ctx.createLinearGradient(0, 0, 0, screenCanvas.height);
+            gradient.addColorStop(0, '#667eea');
+            gradient.addColorStop(1, '#764ba2');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, screenCanvas.width, screenCanvas.height);
+            
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 60px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('Loading...', screenCanvas.width / 2, screenCanvas.height / 2);
+        }
+        
+        // Update texture
+        if (screenTexture) {
+            screenTexture.needsUpdate = true;
+        }
+    }
+
+    // Carousel rotation - change image every 3 seconds
+    setInterval(() => {
+        currentImageIndex = (currentImageIndex + 1) % carouselImages.length;
+        drawScreen();
+    }, 3000);
+
+    // Phone screen with rounded corners
+    const screenShape = new THREE.Shape();
+    const screenWidth = 2.5;
+    const screenHeight = 5.2;
+    const screenRadius = 0.25;
+    
+    screenShape.moveTo(-screenWidth/2 + screenRadius, -screenHeight/2);
+    screenShape.lineTo(screenWidth/2 - screenRadius, -screenHeight/2);
+    screenShape.quadraticCurveTo(screenWidth/2, -screenHeight/2, screenWidth/2, -screenHeight/2 + screenRadius);
+    screenShape.lineTo(screenWidth/2, screenHeight/2 - screenRadius);
+    screenShape.quadraticCurveTo(screenWidth/2, screenHeight/2, screenWidth/2 - screenRadius, screenHeight/2);
+    screenShape.lineTo(-screenWidth/2 + screenRadius, screenHeight/2);
+    screenShape.quadraticCurveTo(-screenWidth/2, screenHeight/2, -screenWidth/2, screenHeight/2 - screenRadius);
+    screenShape.lineTo(-screenWidth/2, -screenHeight/2 + screenRadius);
+    screenShape.quadraticCurveTo(-screenWidth/2, -screenHeight/2, -screenWidth/2 + screenRadius, -screenHeight/2);
+
+    const screenTexture = new THREE.CanvasTexture(screenCanvas);
+    screenTexture.minFilter = THREE.LinearFilter;
+    const screenGeometry = new THREE.ShapeGeometry(screenShape);
+    const screenMaterial = new THREE.MeshStandardMaterial({ 
+        map: screenTexture,
+        metalness: 0.1,
+        roughness: 0.2
+    });
+    const screen = new THREE.Mesh(screenGeometry, screenMaterial);
+    screen.position.z = 0.23;
+    phoneGroup.add(screen);
+
+    // Add edge highlight with rounded corners
+    const edgeShape = new THREE.Shape();
+    const edgeWidth = 2.52;
+    const edgeHeight = 5.22;
+    const edgeRadius = 0.26;
+    
+    edgeShape.moveTo(-edgeWidth/2 + edgeRadius, -edgeHeight/2);
+    edgeShape.lineTo(edgeWidth/2 - edgeRadius, -edgeHeight/2);
+    edgeShape.quadraticCurveTo(edgeWidth/2, -edgeHeight/2, edgeWidth/2, -edgeHeight/2 + edgeRadius);
+    edgeShape.lineTo(edgeWidth/2, edgeHeight/2 - edgeRadius);
+    edgeShape.quadraticCurveTo(edgeWidth/2, edgeHeight/2, edgeWidth/2 - edgeRadius, edgeHeight/2);
+    edgeShape.lineTo(-edgeWidth/2 + edgeRadius, edgeHeight/2);
+    edgeShape.quadraticCurveTo(-edgeWidth/2, edgeHeight/2, -edgeWidth/2, edgeHeight/2 - edgeRadius);
+    edgeShape.lineTo(-edgeWidth/2, -edgeHeight/2 + edgeRadius);
+    edgeShape.quadraticCurveTo(-edgeWidth/2, -edgeHeight/2, -edgeWidth/2 + edgeRadius, -edgeHeight/2);
+
+    const edgeGeometry = new THREE.ShapeGeometry(edgeShape);
+    const edgeMaterial = new THREE.MeshStandardMaterial({ 
+        color: 0x444444,
+        metalness: 0.8,
+        roughness: 0.2
+    });
+    const edge = new THREE.Mesh(edgeGeometry, edgeMaterial);
+    edge.position.z = 0.22;
+    phoneGroup.add(edge);
+
+    scene.add(phoneGroup);
+
+    // Camera position
+    camera.position.z = 8;
+    camera.position.y = 0;
+
+    // Mouse interaction
+    let mouseX = 0;
+    let mouseY = 0;
+    let targetRotationX = 0;
+    let targetRotationY = 0;
+    let isMouseDown = false;
+
+    canvas.addEventListener('mousemove', (event) => {
+        if (!isMouseDown) {
+            const rect = canvas.getBoundingClientRect();
+            mouseX = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+            mouseY = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+            targetRotationY = mouseX * 0.15;  // Reduced from 0.3 to 0.15
+            targetRotationX = mouseY * 0.1;   // Reduced from 0.2 to 0.1
+        }
+    });
+
+    canvas.addEventListener('mousedown', () => {
+        isMouseDown = true;
+    });
+
+    canvas.addEventListener('mouseup', () => {
+        isMouseDown = false;
+    });
+
+    // Touch interaction
+    canvas.addEventListener('touchmove', (event) => {
+        if (event.touches.length > 0) {
+            const touch = event.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            mouseX = ((touch.clientX - rect.left) / rect.width) * 2 - 1;
+            mouseY = -((touch.clientY - rect.top) / rect.height) * 2 + 1;
+            targetRotationY = mouseX * 0.15;  // Reduced from 0.3 to 0.15
+            targetRotationX = mouseY * 0.1;   // Reduced from 0.2 to 0.1
+        }
+    });
+
+    // Auto rotation when not interacting
+    let autoRotationTime = 0;
+
+    // Animation loop
+    function animate() {
+        requestAnimationFrame(animate);
+
+        if (!isMouseDown && Math.abs(mouseX) < 0.01 && Math.abs(mouseY) < 0.01) {
+            // Subtle auto-rotation
+            autoRotationTime += 0.005;
+            targetRotationY = Math.sin(autoRotationTime) * 0.075;  // Reduced from 0.15 to 0.075
+            targetRotationX = Math.cos(autoRotationTime * 0.7) * 0.05;  // Reduced from 0.1 to 0.05
+        }
+
+        // Smooth rotation
+        phoneGroup.rotation.y += (targetRotationY - phoneGroup.rotation.y) * 0.05;
+        phoneGroup.rotation.x += (targetRotationX - phoneGroup.rotation.x) * 0.05;
+
+        // Subtle floating animation
+        phoneGroup.position.y = Math.sin(Date.now() * 0.001) * 0.1;
+
+        renderer.render(scene, camera);
+    }
+
+    // Handle window resize
+    window.addEventListener('resize', () => {
+        const newWidth = container.clientWidth;
+        const newHeight = container.clientHeight;
+        camera.aspect = newWidth / newHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(newWidth, newHeight);
+    });
+
+    animate();
+    </script>
 </body>
 </html>
