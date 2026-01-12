@@ -638,7 +638,7 @@
     // Phone screen using PlaneGeometry for proper UV mapping - ОЩЕ ПО-МАЛЪК
     const screenTexture = new THREE.CanvasTexture(screenCanvas);
     screenTexture.minFilter = THREE.LinearFilter;
-    const screenGeometry = new THREE.PlaneGeometry(2.2, 4.7);  // НАМАЛЕНО ОЩЕ: от 2.35x4.9 на 2.2x4.7
+    const screenGeometry = new THREE.PlaneGeometry(2.3, 4.9);  // НАМАЛЕНО ОЩЕ: от 2.35x4.9 на 2.2x4.7
     const screenMaterial = new THREE.MeshStandardMaterial({ 
         map: screenTexture,
         metalness: 0.1,
