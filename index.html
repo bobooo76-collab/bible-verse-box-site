@@ -574,7 +574,30 @@
         
         // Draw current screenshot if available
         if (carouselImages[currentImageIndex]) {
-            ctx.drawImage(carouselImages[currentImageIndex], 0, 0, screenCanvas.width, screenCanvas.height);
+            const img = carouselImages[currentImageIndex];
+            
+            // Calculate aspect ratios
+            const canvasRatio = screenCanvas.width / screenCanvas.height;
+            const imgRatio = img.width / img.height;
+            
+            let drawWidth, drawHeight, offsetX, offsetY;
+            
+            // Use "cover" logic - fill entire canvas, crop if needed
+            if (imgRatio > canvasRatio) {
+                // Image is wider - fit to height and crop width
+                drawHeight = screenCanvas.height;
+                drawWidth = drawHeight * imgRatio;
+                offsetX = (screenCanvas.width - drawWidth) / 2;
+                offsetY = 0;
+            } else {
+                // Image is taller - fit to width and crop height
+                drawWidth = screenCanvas.width;
+                drawHeight = drawWidth / imgRatio;
+                offsetX = 0;
+                offsetY = (screenCanvas.height - drawHeight) / 2;
+            }
+            
+            ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
         } else {
             // Fallback if image not loaded - show gradient background
             const gradient = ctx.createLinearGradient(0, 0, 0, screenCanvas.height);
