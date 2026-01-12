@@ -646,7 +646,7 @@
         roughness: 0.2
     });
     const screen = new THREE.Mesh(screenGeometry, screenMaterial);
-    screen.position.z = 0.22;
+    screen.position.z = 0.23;
     phoneGroup.add(screen);
 
     // МАХНАТО: черната рамка (frame) - вече няма втори екран отгоре
@@ -655,7 +655,7 @@
     const edgeGeometry = new THREE.PlaneGeometry(2.5, 5.15);  // УВЕЛИЧЕНО малко повече от екрана
     const edgeMaterial = new THREE.MeshStandardMaterial({ 
         color: 0x1a1a1a,  // По-тъмно черно
-        metalness: 0.8,
+        metalness: 0.6,
         roughness: 0.2
     });
     const edge = new THREE.Mesh(edgeGeometry, edgeMaterial);
