@@ -576,39 +576,34 @@
     function drawScreen() {
         console.log('drawScreen called, currentImageIndex:', currentImageIndex);
         
-        // Clear canvas
+        // Clear canvas with transparency
         ctx.clearRect(0, 0, screenCanvas.width, screenCanvas.height);
+        
+        // Save context state
+        ctx.save();
+        
+        // Create rounded rectangle clipping path
+        const radius = 120; // Corner radius
+        ctx.beginPath();
+        ctx.moveTo(radius, 0);
+        ctx.lineTo(screenCanvas.width - radius, 0);
+        ctx.quadraticCurveTo(screenCanvas.width, 0, screenCanvas.width, radius);
+        ctx.lineTo(screenCanvas.width, screenCanvas.height - radius);
+        ctx.quadraticCurveTo(screenCanvas.width, screenCanvas.height, screenCanvas.width - radius, screenCanvas.height);
+        ctx.lineTo(radius, screenCanvas.height);
+        ctx.quadraticCurveTo(0, screenCanvas.height, 0, screenCanvas.height - radius);
+        ctx.lineTo(0, radius);
+        ctx.quadraticCurveTo(0, 0, radius, 0);
+        ctx.closePath();
+        ctx.clip(); // Clip to rounded rectangle
         
         // Draw current screenshot if available
         if (carouselImages[currentImageIndex]) {
             const img = carouselImages[currentImageIndex];
             console.log('Drawing image:', currentImageIndex, 'Canvas size:', screenCanvas.width, 'x', screenCanvas.height, 'Image size:', img.width, 'x', img.height);
             
-            // Calculate aspect ratios
-            const canvasRatio = screenCanvas.width / screenCanvas.height;  // 1080/2160 = 0.5
-            const imgRatio = img.width / img.height;  // 395/879 = 0.449
-            
-            let drawWidth, drawHeight, offsetX, offsetY;
-            
-            // Cover logic - SCALE UP to fill, then center and crop
-            if (imgRatio > canvasRatio) {
-                // Image is relatively wider - fit to HEIGHT, crop sides
-                drawHeight = screenCanvas.height;
-                drawWidth = drawHeight * imgRatio;
-                offsetX = (screenCanvas.width - drawWidth) / 2;
-                offsetY = 0;
-            } else {
-                // Image is relatively taller - fit to WIDTH, crop top/bottom
-                drawWidth = screenCanvas.width;
-                drawHeight = drawWidth / imgRatio;
-                offsetX = 0;
-                offsetY = (screenCanvas.height - drawHeight) / 2;
-            }
-            
-            console.log('Drawing with:', drawWidth, 'x', drawHeight, 'at offset:', offsetX, offsetY);
-            
-            // Draw scaled image
-            ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+            // Simply stretch the image to fill the entire canvas
+            ctx.drawImage(img, 0, 0, screenCanvas.width, screenCanvas.height);
         } else {
             console.log('No image available at index:', currentImageIndex);
             // Fallback if image not loaded - show gradient background
@@ -624,6 +619,9 @@
             ctx.fillText('Loading...', screenCanvas.width / 2, screenCanvas.height / 2);
         }
         
+        // Restore context
+        ctx.restore();
+        
         // Update texture
         if (screenTexture) {
             screenTexture.needsUpdate = true;
@@ -637,25 +635,10 @@
         drawScreen();
     }, 3000);
 
-    // Phone screen with rounded corners - REVERTED to original
-    const screenShape = new THREE.Shape();
-    const screenWidth = 2.5;
-    const screenHeight = 5.2;  // Back to original
-    const screenRadius = 0.25;
-    
-    screenShape.moveTo(-screenWidth/2 + screenRadius, -screenHeight/2);
-    screenShape.lineTo(screenWidth/2 - screenRadius, -screenHeight/2);
-    screenShape.quadraticCurveTo(screenWidth/2, -screenHeight/2, screenWidth/2, -screenHeight/2 + screenRadius);
-    screenShape.lineTo(screenWidth/2, screenHeight/2 - screenRadius);
-    screenShape.quadraticCurveTo(screenWidth/2, screenHeight/2, screenWidth/2 - screenRadius, screenHeight/2);
-    screenShape.lineTo(-screenWidth/2 + screenRadius, screenHeight/2);
-    screenShape.quadraticCurveTo(-screenWidth/2, screenHeight/2, -screenWidth/2, screenHeight/2 - screenRadius);
-    screenShape.lineTo(-screenWidth/2, -screenHeight/2 + screenRadius);
-    screenShape.quadraticCurveTo(-screenWidth/2, -screenHeight/2, -screenWidth/2 + screenRadius, -screenHeight/2);
-
+    // Phone screen using PlaneGeometry for proper UV mapping
     const screenTexture = new THREE.CanvasTexture(screenCanvas);
     screenTexture.minFilter = THREE.LinearFilter;
-    const screenGeometry = new THREE.ShapeGeometry(screenShape);
+    const screenGeometry = new THREE.PlaneGeometry(2.5, 5.2);
     const screenMaterial = new THREE.MeshStandardMaterial({ 
         map: screenTexture,
         metalness: 0.1,
@@ -665,23 +648,8 @@
     screen.position.z = 0.23;
     phoneGroup.add(screen);
 
-    // Add edge highlight with rounded corners - REVERTED to original
-    const edgeShape = new THREE.Shape();
-    const edgeWidth = 2.52;
-    const edgeHeight = 5.22;  // Back to original
-    const edgeRadius = 0.26;
-    
-    edgeShape.moveTo(-edgeWidth/2 + edgeRadius, -edgeHeight/2);
-    edgeShape.lineTo(edgeWidth/2 - edgeRadius, -edgeHeight/2);
-    edgeShape.quadraticCurveTo(edgeWidth/2, -edgeHeight/2, edgeWidth/2, -edgeHeight/2 + edgeRadius);
-    edgeShape.lineTo(edgeWidth/2, edgeHeight/2 - edgeRadius);
-    edgeShape.quadraticCurveTo(edgeWidth/2, edgeHeight/2, edgeWidth/2 - edgeRadius, edgeHeight/2);
-    edgeShape.lineTo(-edgeWidth/2 + edgeRadius, edgeHeight/2);
-    edgeShape.quadraticCurveTo(-edgeWidth/2, edgeHeight/2, -edgeWidth/2, edgeHeight/2 - edgeRadius);
-    edgeShape.lineTo(-edgeWidth/2, -edgeHeight/2 + edgeRadius);
-    edgeShape.quadraticCurveTo(-edgeWidth/2, -edgeHeight/2, -edgeWidth/2 + edgeRadius, -edgeHeight/2);
-
-    const edgeGeometry = new THREE.ShapeGeometry(edgeShape);
+    // Add edge highlight using PlaneGeometry
+    const edgeGeometry = new THREE.PlaneGeometry(2.52, 5.22);
     const edgeMaterial = new THREE.MeshStandardMaterial({ 
         color: 0x444444,
         metalness: 0.8,
