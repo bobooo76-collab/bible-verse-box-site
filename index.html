@@ -614,10 +614,12 @@
         drawScreen();
     }, 3000);
 
-    // Phone screen with rounded corners
+    // Phone screen with rounded corners - ADJUSTED to match screenshot aspect ratio
     const screenShape = new THREE.Shape();
+    // Screenshot ratio is 395:879 ≈ 1:2.225
+    // Keep width at 2.5, height should be 2.5 * 2.225 = 5.56
     const screenWidth = 2.5;
-    const screenHeight = 5.2;
+    const screenHeight = 5.56;  // Changed from 5.2 to 5.56 to match screenshot ratio
     const screenRadius = 0.25;
     
     screenShape.moveTo(-screenWidth/2 + screenRadius, -screenHeight/2);
@@ -642,10 +644,10 @@
     screen.position.z = 0.23;
     phoneGroup.add(screen);
 
-    // Add edge highlight with rounded corners
+    // Add edge highlight with rounded corners - ADJUSTED to match new screen
     const edgeShape = new THREE.Shape();
     const edgeWidth = 2.52;
-    const edgeHeight = 5.22;
+    const edgeHeight = 5.58;  // Changed from 5.22 to match new screen height
     const edgeRadius = 0.26;
     
     edgeShape.moveTo(-edgeWidth/2 + edgeRadius, -edgeHeight/2);
