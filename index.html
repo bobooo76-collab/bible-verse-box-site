@@ -580,24 +580,29 @@
             const canvasRatio = screenCanvas.width / screenCanvas.height;
             const imgRatio = img.width / img.height;
             
-            let drawWidth, drawHeight, offsetX, offsetY;
+            let sourceX, sourceY, sourceWidth, sourceHeight;
             
-            // Use "cover" logic - fill entire canvas, crop if needed
+            // Use "cover" logic - crop the image to fill canvas completely
             if (imgRatio > canvasRatio) {
-                // Image is wider - fit to height and crop width
-                drawHeight = screenCanvas.height;
-                drawWidth = drawHeight * imgRatio;
-                offsetX = (screenCanvas.width - drawWidth) / 2;
-                offsetY = 0;
+                // Image is wider than canvas - crop sides
+                sourceHeight = img.height;
+                sourceWidth = sourceHeight * canvasRatio;
+                sourceX = (img.width - sourceWidth) / 2;
+                sourceY = 0;
             } else {
-                // Image is taller - fit to width and crop height
-                drawWidth = screenCanvas.width;
-                drawHeight = drawWidth / imgRatio;
-                offsetX = 0;
-                offsetY = (screenCanvas.height - drawHeight) / 2;
+                // Image is taller than canvas - crop top/bottom
+                sourceWidth = img.width;
+                sourceHeight = sourceWidth / canvasRatio;
+                sourceX = 0;
+                sourceY = (img.height - sourceHeight) / 2;
             }
             
-            ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+            // Draw cropped portion to fill entire canvas
+            ctx.drawImage(
+                img,
+                sourceX, sourceY, sourceWidth, sourceHeight,  // Source rectangle (crop from image)
+                0, 0, screenCanvas.width, screenCanvas.height  // Destination rectangle (full canvas)
+            );
         } else {
             // Fallback if image not loaded - show gradient background
             const gradient = ctx.createLinearGradient(0, 0, 0, screenCanvas.height);
