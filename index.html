@@ -479,7 +479,7 @@
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
     // Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
     scene.add(ambientLight);
 
     const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
@@ -533,10 +533,10 @@
     phoneBody.receiveShadow = true;
     phoneGroup.add(phoneBody);
 
-    // Create canvas for screen texture - match screenshot dimensions exactly
+    // Create canvas for screen texture - LARGER size for better fill
     const screenCanvas = document.createElement('canvas');
-    screenCanvas.width = 395;   // Exact screenshot width
-    screenCanvas.height = 879;  // Exact screenshot height
+    screenCanvas.width = 1080;   // Much larger than screenshot
+    screenCanvas.height = 2160;  // Standard 1080x2160 phone resolution
     const ctx = screenCanvas.getContext('2d');
 
     // Load carousel images
@@ -614,12 +614,10 @@
         drawScreen();
     }, 3000);
 
-    // Phone screen with rounded corners - ADJUSTED to match screenshot aspect ratio
+    // Phone screen with rounded corners - REVERTED to original
     const screenShape = new THREE.Shape();
-    // Screenshot ratio is 395:879 ≈ 1:2.225
-    // Keep width at 2.5, height should be 2.5 * 2.225 = 5.56
     const screenWidth = 2.5;
-    const screenHeight = 5.56;  // Changed from 5.2 to 5.56 to match screenshot ratio
+    const screenHeight = 5.2;  // Back to original
     const screenRadius = 0.25;
     
     screenShape.moveTo(-screenWidth/2 + screenRadius, -screenHeight/2);
@@ -644,10 +642,10 @@
     screen.position.z = 0.23;
     phoneGroup.add(screen);
 
-    // Add edge highlight with rounded corners - ADJUSTED to match new screen
+    // Add edge highlight with rounded corners - REVERTED to original
     const edgeShape = new THREE.Shape();
     const edgeWidth = 2.52;
-    const edgeHeight = 5.58;  // Changed from 5.22 to match new screen height
+    const edgeHeight = 5.22;  // Back to original
     const edgeRadius = 0.26;
     
     edgeShape.moveTo(-edgeWidth/2 + edgeRadius, -edgeHeight/2);
