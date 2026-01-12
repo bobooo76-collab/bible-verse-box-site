@@ -535,10 +535,9 @@
 
     // Create canvas for screen texture - match phone screen aspect ratio
     const screenCanvas = document.createElement('canvas');
-    // Phone screen is 2.5 x 5.2 units, aspect ratio ≈ 1:2.08
-    // Use higher resolution for better quality
-    screenCanvas.width = 1440;  // Increased resolution
-    screenCanvas.height = 2995; // Matches screen aspect ratio (2.5:5.2 = 1440:2995)
+    // Use dimensions close to actual screenshots (395x879)
+    screenCanvas.width = 1080;  // Standard phone width
+    screenCanvas.height = 2340; // Matches typical phone aspect ratio ~19.5:9
     const ctx = screenCanvas.getContext('2d');
 
     // Load carousel images
