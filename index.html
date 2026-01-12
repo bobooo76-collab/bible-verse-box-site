@@ -642,8 +642,8 @@
     const screenGeometry = new THREE.PlaneGeometry(2.5, 5.2);  // УВЕЛИЧЕНО: от 2.3x4.9 на 2.45x5.1
     const screenMaterial = new THREE.MeshStandardMaterial({ 
         map: screenTexture,
-        metalness: 0.5,
-        roughness: 0.1
+        metalness: 0.7,
+        roughness: 0.2
     });
     const screen = new THREE.Mesh(screenGeometry, screenMaterial);
     screen.position.z = 0.23;
