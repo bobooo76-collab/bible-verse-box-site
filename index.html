@@ -533,11 +533,10 @@
     phoneBody.receiveShadow = true;
     phoneGroup.add(phoneBody);
 
-    // Create canvas for screen texture - match phone screen aspect ratio
+    // Create canvas for screen texture - match screenshot dimensions exactly
     const screenCanvas = document.createElement('canvas');
-    // Use dimensions close to actual screenshots (395x879)
-    screenCanvas.width = 1080;  // Standard phone width
-    screenCanvas.height = 2340; // Matches typical phone aspect ratio ~19.5:9
+    screenCanvas.width = 395;   // Exact screenshot width
+    screenCanvas.height = 879;  // Exact screenshot height
     const ctx = screenCanvas.getContext('2d');
 
     // Load carousel images
