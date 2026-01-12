@@ -533,10 +533,12 @@
     phoneBody.receiveShadow = true;
     phoneGroup.add(phoneBody);
 
-    // Create canvas for screen texture
+    // Create canvas for screen texture - match phone screen aspect ratio
     const screenCanvas = document.createElement('canvas');
-    screenCanvas.width = 1080;
-    screenCanvas.height = 2160;
+    // Phone screen is 2.5 x 5.2 units, aspect ratio ≈ 1:2.08
+    // Use higher resolution for better quality
+    screenCanvas.width = 1440;  // Increased resolution
+    screenCanvas.height = 2995; // Matches screen aspect ratio (2.5:5.2 = 1440:2995)
     const ctx = screenCanvas.getContext('2d');
 
     // Load carousel images
