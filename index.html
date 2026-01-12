@@ -649,20 +649,6 @@
     screen.position.z = 0.23;
     phoneGroup.add(screen);
 
-    // Add glossy overlay for realistic screen reflection/glare
-    const glossGeometry = new THREE.PlaneGeometry(2.45, 5.1);
-    const glossMaterial = new THREE.MeshStandardMaterial({ 
-        color: 0xffffff,
-        transparent: true,
-        opacity: 0.5,  // Много прозрачен - само лек отблясък
-        metalness: 0.7,  // Много метален - силен отблясък
-        roughness: 0.1,  // Много гладък - ясен отблясък
-        side: THREE.FrontSide
-    });
-    const glossLayer = new THREE.Mesh(glossGeometry, glossMaterial);
-    glossLayer.position.z = 0.24;  // Точно пред екрана
-    phoneGroup.add(glossLayer);
-
     // МАХНАТО: черната рамка (frame) - вече няма втори екран отгоре
 
     // Add edge highlight using PlaneGeometry (behind everything)
