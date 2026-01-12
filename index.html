@@ -558,29 +558,38 @@
         img.onload = () => {
             carouselImages[index] = img;
             imagesLoaded++;
+            console.log(`Image ${index + 1} loaded: ${url}, size: ${img.width}x${img.height}`);
             if (imagesLoaded === imageUrls.length) {
+                console.log('All images loaded, drawing screen...');
                 drawScreen(); // Draw first image when all loaded
             }
         };
         img.onerror = () => {
-            console.log('Error loading image:', url);
+            console.error('Error loading image:', url);
             imagesLoaded++;
+            if (imagesLoaded === imageUrls.length) {
+                drawScreen();
+            }
         };
         img.src = url;
     });
 
     // Draw screen content with current carousel image
     function drawScreen() {
+        console.log('drawScreen called, currentImageIndex:', currentImageIndex);
+        
         // Clear canvas
         ctx.clearRect(0, 0, screenCanvas.width, screenCanvas.height);
         
         // Draw current screenshot if available
         if (carouselImages[currentImageIndex]) {
             const img = carouselImages[currentImageIndex];
+            console.log('Drawing image:', currentImageIndex, 'Canvas size:', screenCanvas.width, 'x', screenCanvas.height, 'Image size:', img.width, 'x', img.height);
             
             // Simply stretch the image to fill the entire canvas
             ctx.drawImage(img, 0, 0, screenCanvas.width, screenCanvas.height);
         } else {
+            console.log('No image available at index:', currentImageIndex);
             // Fallback if image not loaded - show gradient background
             const gradient = ctx.createLinearGradient(0, 0, 0, screenCanvas.height);
             gradient.addColorStop(0, '#667eea');
@@ -597,6 +606,7 @@
         // Update texture
         if (screenTexture) {
             screenTexture.needsUpdate = true;
+            console.log('Texture updated');
         }
     }
 
