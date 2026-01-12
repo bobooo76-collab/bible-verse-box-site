@@ -635,10 +635,10 @@
         drawScreen();
     }, 3000);
 
-    // Phone screen using PlaneGeometry for proper UV mapping - МАЛКО ПО-МАЛЪК
+    // Phone screen using PlaneGeometry for proper UV mapping - ОЩЕ ПО-МАЛЪК
     const screenTexture = new THREE.CanvasTexture(screenCanvas);
     screenTexture.minFilter = THREE.LinearFilter;
-    const screenGeometry = new THREE.PlaneGeometry(2.35, 4.9);  // НАМАЛЕНО: от 2.5x5.2 на 2.35x4.9
+    const screenGeometry = new THREE.PlaneGeometry(2.2, 4.7);  // НАМАЛЕНО ОЩЕ: от 2.35x4.9 на 2.2x4.7
     const screenMaterial = new THREE.MeshStandardMaterial({ 
         map: screenTexture,
         metalness: 0.1,
@@ -661,7 +661,7 @@
     // Cut out rounded rectangle in the middle (this creates the frame effect)
     frameCtx.globalCompositeOperation = 'destination-out';
     const frameRadius = 100; // Slightly smaller than screen radius
-    const frameInset = 20; // Border thickness
+    const frameInset = 10; // НАМАЛЕНО: Border thickness от 20 на 10 - по-тънка рамка
     
     frameCtx.beginPath();
     frameCtx.moveTo(frameInset + frameRadius, frameInset);
@@ -679,7 +679,7 @@
     // Add frame on top of screen
     const frameTexture = new THREE.CanvasTexture(frameCanvas);
     frameTexture.minFilter = THREE.LinearFilter;
-    const frameGeometry = new THREE.PlaneGeometry(2.35, 4.9);  // НАМАЛЕНО: да съвпада с екрана
+    const frameGeometry = new THREE.PlaneGeometry(2.2, 4.7);  // НАМАЛЕНО: да съвпада с екрана
     const frameMaterial = new THREE.MeshStandardMaterial({ 
         map: frameTexture,
         transparent: true,
@@ -691,7 +691,7 @@
     phoneGroup.add(frame);
 
     // Add edge highlight using PlaneGeometry (behind everything)
-    const edgeGeometry = new THREE.PlaneGeometry(2.4, 4.95);  // МАЛКО ПО-ГОЛЯМ от екрана
+    const edgeGeometry = new THREE.PlaneGeometry(2.25, 4.75);  // МАЛКО ПО-ГОЛЯМ от екрана
     const edgeMaterial = new THREE.MeshStandardMaterial({ 
         color: 0x333333,
         metalness: 0.8,
