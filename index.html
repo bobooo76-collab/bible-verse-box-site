@@ -194,6 +194,15 @@
             transform: translateY(-2px);
         }
         
+        /* Twemoji flag styles */
+        img.emoji {
+            height: 1.2em;
+            width: 1.2em;
+            margin: 0 .05em 0 .1em;
+            vertical-align: -0.1em;
+            display: inline-block;
+        }
+        
         /* Footer */
         footer {
             text-align: center;
@@ -412,6 +421,7 @@
     </div>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@twemoji/api@latest/dist/twemoji.min.js" crossorigin="anonymous"></script>
     <script>
     // Language Switcher Logic
     const langButtons = document.querySelectorAll('.lang-btn');
@@ -460,6 +470,12 @@
         const savedLang = localStorage.getItem('preferred-language');
         const lang = savedLang || detectLanguage();
         switchLanguage(lang);
+        
+        // Parse all emojis to images using Twemoji
+        twemoji.parse(document.body, {
+            folder: 'svg',
+            ext: '.svg'
+        });
     });
 
     // ===== 3D PHONE SETUP =====
@@ -513,10 +529,10 @@
     phoneShape.quadraticCurveTo(-width/2, -height/2, -width/2 + radius, -height/2);
 
     const extrudeSettings = {
-        depth: 0.2,  // НАМАЛЕНО: от 0.4 на 0.2 - телефонът е по-тънък
+        depth: 0.2,
         bevelEnabled: true,
-        bevelThickness: 0.03,  // Намалено малко
-        bevelSize: 0.03,       // Намалено малко
+        bevelThickness: 0.03,
+        bevelSize: 0.03,
         bevelSegments: 5
     };
 
@@ -528,15 +544,15 @@
     });
     const phoneBody = new THREE.Mesh(phoneBodyGeometry, phoneBodyMaterial);
     phoneBody.rotation.x = Math.PI;
-    phoneBody.position.z = -0.1;  // ПРОМЕНЕНО: от -0.2 на -0.1 заради новата дебелина
+    phoneBody.position.z = -0.1;
     phoneBody.castShadow = true;
     phoneBody.receiveShadow = true;
     phoneGroup.add(phoneBody);
 
-    // Create canvas for screen texture - LARGER size for better fill
+    // Create canvas for screen texture
     const screenCanvas = document.createElement('canvas');
-    screenCanvas.width = 1080;   // Much larger than screenshot
-    screenCanvas.height = 2160;  // Standard 1080x2160 phone resolution
+    screenCanvas.width = 1080;
+    screenCanvas.height = 2160;
     const ctx = screenCanvas.getContext('2d');
 
     // Load carousel images
@@ -563,7 +579,7 @@
             console.log(`Image ${index + 1} loaded: ${url}, size: ${img.width}x${img.height}`);
             if (imagesLoaded === imageUrls.length) {
                 console.log('All images loaded, drawing screen...');
-                drawScreen(); // Draw first image when all loaded
+                drawScreen();
             }
         };
         img.onerror = () => {
@@ -588,7 +604,7 @@
         ctx.save();
         
         // Create rounded rectangle clipping path
-        const radius = 70; // Corner radius
+        const radius = 70;
         ctx.beginPath();
         ctx.moveTo(radius, 0);
         ctx.lineTo(screenCanvas.width - radius, 0);
@@ -600,18 +616,16 @@
         ctx.lineTo(0, radius);
         ctx.quadraticCurveTo(0, 0, radius, 0);
         ctx.closePath();
-        ctx.clip(); // Clip to rounded rectangle
+        ctx.clip();
         
         // Draw current screenshot if available
         if (carouselImages[currentImageIndex]) {
             const img = carouselImages[currentImageIndex];
             console.log('Drawing image:', currentImageIndex, 'Canvas size:', screenCanvas.width, 'x', screenCanvas.height, 'Image size:', img.width, 'x', img.height);
             
-            // Simply stretch the image to fill the entire canvas
             ctx.drawImage(img, 0, 0, screenCanvas.width, screenCanvas.height);
         } else {
             console.log('No image available at index:', currentImageIndex);
-            // Fallback if image not loaded - show gradient background
             const gradient = ctx.createLinearGradient(0, 0, 0, screenCanvas.height);
             gradient.addColorStop(0, '#667eea');
             gradient.addColorStop(1, '#764ba2');
@@ -643,7 +657,7 @@
     // Phone screen using PlaneGeometry for proper UV mapping
     const screenTexture = new THREE.CanvasTexture(screenCanvas);
     screenTexture.minFilter = THREE.LinearFilter;
-    const screenGeometry = new THREE.PlaneGeometry(2.45, 5.1);  // УВЕЛИЧЕНО: от 2.3x4.9 на 2.45x5.1
+    const screenGeometry = new THREE.PlaneGeometry(2.45, 5.1);
     const screenMaterial = new THREE.MeshStandardMaterial({ 
         map: screenTexture,
         metalness: 0.05,
@@ -653,12 +667,10 @@
     screen.position.z = 0.23;
     phoneGroup.add(screen);
 
-    // МАХНАТО: черната рамка (frame) - вече няма втори екран отгоре
-
     // Add edge highlight using PlaneGeometry (behind everything)
-    const edgeGeometry = new THREE.PlaneGeometry(2.5, 5.15);  // УВЕЛИЧЕНО малко повече от екрана
+    const edgeGeometry = new THREE.PlaneGeometry(2.5, 5.15);
     const edgeMaterial = new THREE.MeshStandardMaterial({ 
-        color: 0x1a1a1a,  // По-тъмно черно
+        color: 0x1a1a1a,
         metalness: 0.6,
         roughness: 0.2
     });
@@ -684,8 +696,8 @@
             const rect = canvas.getBoundingClientRect();
             mouseX = ((event.clientX - rect.left) / rect.width) * 2 - 1;
             mouseY = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-            targetRotationY = mouseX * 0.15;  // Reduced from 0.3 to 0.15
-            targetRotationX = mouseY * 0.1;   // Reduced from 0.2 to 0.1
+            targetRotationY = mouseX * 0.15;
+            targetRotationX = mouseY * 0.1;
         }
     });
 
@@ -704,8 +716,8 @@
             const rect = canvas.getBoundingClientRect();
             mouseX = ((touch.clientX - rect.left) / rect.width) * 2 - 1;
             mouseY = -((touch.clientY - rect.top) / rect.height) * 2 + 1;
-            targetRotationY = mouseX * 0.15;  // Reduced from 0.3 to 0.15
-            targetRotationX = mouseY * 0.1;   // Reduced from 0.2 to 0.1
+            targetRotationY = mouseX * 0.15;
+            targetRotationX = mouseY * 0.1;
         }
     });
 
@@ -717,10 +729,9 @@
         requestAnimationFrame(animate);
 
         if (!isMouseDown && Math.abs(mouseX) < 0.01 && Math.abs(mouseY) < 0.01) {
-            // Subtle auto-rotation
             autoRotationTime += 0.005;
-            targetRotationY = Math.sin(autoRotationTime) * 0.075;  // Reduced from 0.15 to 0.075
-            targetRotationX = Math.cos(autoRotationTime * 0.7) * 0.05;  // Reduced from 0.1 to 0.05
+            targetRotationY = Math.sin(autoRotationTime) * 0.075;
+            targetRotationX = Math.cos(autoRotationTime * 0.7) * 0.05;
         }
 
         // Smooth rotation
