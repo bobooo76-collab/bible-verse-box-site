@@ -111,7 +111,7 @@
             margin-bottom: 20px;
         }
         .download-btn { 
-            background: #27ae60; 
+            background: #e74c3c; 
             color: white; 
             padding: 12px 28px; 
             border: none; 
@@ -124,7 +124,7 @@
             transition: all 0.3s;
         }
         .download-btn:hover { 
-            background: #229954; 
+            background: #c0392b; 
             transform: translateY(-2px); 
         }
         .features { 
@@ -288,7 +288,7 @@
                data-en="📥 Download" 
                data-bg="📥 Изтегли">
                 📥 Download
-            </a>           
+            </a>         
             <div class="features">
                 <h3 data-en="🎯 Key Features" data-bg="🎯 Основни функции">
                     🎯 Key Features
@@ -423,7 +423,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@twemoji/api@latest/dist/twemoji.min.js" crossorigin="anonymous"></script>
     <script>
-    // [СЪЩИЯТ JavaScript КОД ОСТАВА БЕЗ ПРОМЯНА - копирай го от оригинала]
     // Language Switcher Logic
     const langButtons = document.querySelectorAll('.lang-btn');
     const translatableElements = document.querySelectorAll('[data-en][data-bg]');
@@ -448,6 +447,7 @@
             }
         });
         
+        // Update canvas info text
         const canvasInfo = document.getElementById('canvas-info');
         if (lang === 'bg') {
             canvasInfo.textContent = 'Завъртете с мишката или докоснете';
@@ -471,13 +471,289 @@
         const lang = savedLang || detectLanguage();
         switchLanguage(lang);
         
+        // Parse all emojis to images using Twemoji
         twemoji.parse(document.body, {
             folder: 'svg',
             ext: '.svg'
         });
     });
 
-    // [Копирай целия 3D phone код тук - остава същият]
+    // ===== 3D PHONE SETUP =====
+    const container = document.getElementById('phone-canvas-container');
+    const canvas = document.getElementById('phone-canvas');
+    
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ 
+        canvas: canvas,
+        antialias: true,
+        alpha: true 
+    });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    scene.add(ambientLight);
+
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    directionalLight.position.set(5, 10, 7);
+    directionalLight.castShadow = true;
+    directionalLight.shadow.mapSize.width = 2048;
+    directionalLight.shadow.mapSize.height = 2048;
+    scene.add(directionalLight);
+
+    const backLight = new THREE.DirectionalLight(0x667eea, 0.3);
+    backLight.position.set(-5, 5, -5);
+    scene.add(backLight);
+
+    // Create phone group
+    const phoneGroup = new THREE.Group();
+
+    // Create rounded phone body using ExtrudeGeometry
+    const phoneShape = new THREE.Shape();
+    const width = 2.8;
+    const height = 5.5;
+    const radius = 0.3;
+    
+    phoneShape.moveTo(-width/2 + radius, -height/2);
+    phoneShape.lineTo(width/2 - radius, -height/2);
+    phoneShape.quadraticCurveTo(width/2, -height/2, width/2, -height/2 + radius);
+    phoneShape.lineTo(width/2, height/2 - radius);
+    phoneShape.quadraticCurveTo(width/2, height/2, width/2 - radius, height/2);
+    phoneShape.lineTo(-width/2 + radius, height/2);
+    phoneShape.quadraticCurveTo(-width/2, height/2, -width/2, height/2 - radius);
+    phoneShape.lineTo(-width/2, -height/2 + radius);
+    phoneShape.quadraticCurveTo(-width/2, -height/2, -width/2 + radius, -height/2);
+
+    const extrudeSettings = {
+        depth: 0.2,
+        bevelEnabled: true,
+        bevelThickness: 0.03,
+        bevelSize: 0.03,
+        bevelSegments: 5
+    };
+
+    const phoneBodyGeometry = new THREE.ExtrudeGeometry(phoneShape, extrudeSettings);
+    const phoneBodyMaterial = new THREE.MeshStandardMaterial({ 
+        color: 0x1a1a1a,
+        metalness: 0.1,
+        roughness: 0.3
+    });
+    const phoneBody = new THREE.Mesh(phoneBodyGeometry, phoneBodyMaterial);
+    phoneBody.rotation.x = Math.PI;
+    phoneBody.position.z = -0.1;
+    phoneBody.castShadow = true;
+    phoneBody.receiveShadow = true;
+    phoneGroup.add(phoneBody);
+
+    // Create canvas for screen texture
+    const screenCanvas = document.createElement('canvas');
+    screenCanvas.width = 1080;
+    screenCanvas.height = 2160;
+    const ctx = screenCanvas.getContext('2d');
+
+    // Load carousel images
+    const carouselImages = [];
+    const imageUrls = [
+        'screenshots/screenshot1.jpg',
+        'screenshots/screenshot2.jpg',
+        'screenshots/screenshot3.jpg',
+        'screenshots/screenshot4.jpg',
+        'screenshots/screenshot5.jpg',
+        'screenshots/screenshot6.jpg',
+        'screenshots/screenshot7.jpg'
+    ];
+    let currentImageIndex = 0;
+    let imagesLoaded = 0;
+
+    // Load all images
+    imageUrls.forEach((url, index) => {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => {
+            carouselImages[index] = img;
+            imagesLoaded++;
+            console.log(`Image ${index + 1} loaded: ${url}, size: ${img.width}x${img.height}`);
+            if (imagesLoaded === imageUrls.length) {
+                console.log('All images loaded, drawing screen...');
+                drawScreen();
+            }
+        };
+        img.onerror = () => {
+            console.error('Error loading image:', url);
+            imagesLoaded++;
+            if (imagesLoaded === imageUrls.length) {
+                drawScreen();
+            }
+        };
+        img.src = url;
+    });
+
+    // Draw screen content with current carousel image
+    function drawScreen() {
+        console.log('drawScreen called, currentImageIndex:', currentImageIndex);
+        
+        // Fill entire canvas with BLACK background first
+        ctx.fillStyle = '#000000';
+        ctx.fillRect(0, 0, screenCanvas.width, screenCanvas.height);
+        
+        // Save context state
+        ctx.save();
+        
+        // Create rounded rectangle clipping path
+        const radius = 70;
+        ctx.beginPath();
+        ctx.moveTo(radius, 0);
+        ctx.lineTo(screenCanvas.width - radius, 0);
+        ctx.quadraticCurveTo(screenCanvas.width, 0, screenCanvas.width, radius);
+        ctx.lineTo(screenCanvas.width, screenCanvas.height - radius);
+        ctx.quadraticCurveTo(screenCanvas.width, screenCanvas.height, screenCanvas.width - radius, screenCanvas.height);
+        ctx.lineTo(radius, screenCanvas.height);
+        ctx.quadraticCurveTo(0, screenCanvas.height, 0, screenCanvas.height - radius);
+        ctx.lineTo(0, radius);
+        ctx.quadraticCurveTo(0, 0, radius, 0);
+        ctx.closePath();
+        ctx.clip();
+        
+        // Draw current screenshot if available
+        if (carouselImages[currentImageIndex]) {
+            const img = carouselImages[currentImageIndex];
+            console.log('Drawing image:', currentImageIndex, 'Canvas size:', screenCanvas.width, 'x', screenCanvas.height, 'Image size:', img.width, 'x', img.height);
+            
+            ctx.drawImage(img, 0, 0, screenCanvas.width, screenCanvas.height);
+        } else {
+            console.log('No image available at index:', currentImageIndex);
+            const gradient = ctx.createLinearGradient(0, 0, 0, screenCanvas.height);
+            gradient.addColorStop(0, '#667eea');
+            gradient.addColorStop(1, '#764ba2');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, screenCanvas.width, screenCanvas.height);
+            
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 60px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('Loading...', screenCanvas.width / 2, screenCanvas.height / 2);
+        }
+        
+        // Restore context
+        ctx.restore();
+        
+        // Update texture
+        if (screenTexture) {
+            screenTexture.needsUpdate = true;
+            console.log('Texture updated');
+        }
+    }
+
+    // Carousel rotation - change image every 3 seconds
+    setInterval(() => {
+        currentImageIndex = (currentImageIndex + 1) % carouselImages.length;
+        drawScreen();
+    }, 3000);
+
+    // Phone screen using PlaneGeometry for proper UV mapping
+    const screenTexture = new THREE.CanvasTexture(screenCanvas);
+    screenTexture.minFilter = THREE.LinearFilter;
+    const screenGeometry = new THREE.PlaneGeometry(2.45, 5.1);
+    const screenMaterial = new THREE.MeshStandardMaterial({ 
+        map: screenTexture,
+        metalness: 0.05,
+        roughness: 0.2
+    });
+    const screen = new THREE.Mesh(screenGeometry, screenMaterial);
+    screen.position.z = 0.23;
+    phoneGroup.add(screen);
+
+    // Add edge highlight using PlaneGeometry (behind everything)
+    const edgeGeometry = new THREE.PlaneGeometry(2.5, 5.15);
+    const edgeMaterial = new THREE.MeshStandardMaterial({ 
+        color: 0x1a1a1a,
+        metalness: 0.6,
+        roughness: 0.2
+    });
+    const edge = new THREE.Mesh(edgeGeometry, edgeMaterial);
+    edge.position.z = 0.22;
+    phoneGroup.add(edge);
+
+    scene.add(phoneGroup);
+
+    // Camera position
+    camera.position.z = 8;
+    camera.position.y = 0;
+
+    // Mouse interaction
+    let mouseX = 0;
+    let mouseY = 0;
+    let targetRotationX = 0;
+    let targetRotationY = 0;
+    let isMouseDown = false;
+
+    canvas.addEventListener('mousemove', (event) => {
+        if (!isMouseDown) {
+            const rect = canvas.getBoundingClientRect();
+            mouseX = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+            mouseY = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+            targetRotationY = mouseX * 0.15;
+            targetRotationX = mouseY * 0.1;
+        }
+    });
+
+    canvas.addEventListener('mousedown', () => {
+        isMouseDown = true;
+    });
+
+    canvas.addEventListener('mouseup', () => {
+        isMouseDown = false;
+    });
+
+    // Touch interaction
+    canvas.addEventListener('touchmove', (event) => {
+        if (event.touches.length > 0) {
+            const touch = event.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            mouseX = ((touch.clientX - rect.left) / rect.width) * 2 - 1;
+            mouseY = -((touch.clientY - rect.top) / rect.height) * 2 + 1;
+            targetRotationY = mouseX * 0.15;
+            targetRotationX = mouseY * 0.1;
+        }
+    });
+
+    // Auto rotation when not interacting
+    let autoRotationTime = 0;
+
+    // Animation loop
+    function animate() {
+        requestAnimationFrame(animate);
+
+        if (!isMouseDown && Math.abs(mouseX) < 0.01 && Math.abs(mouseY) < 0.01) {
+            autoRotationTime += 0.005;
+            targetRotationY = Math.sin(autoRotationTime) * 0.075;
+            targetRotationX = Math.cos(autoRotationTime * 0.7) * 0.05;
+        }
+
+        // Smooth rotation
+        phoneGroup.rotation.y += (targetRotationY - phoneGroup.rotation.y) * 0.05;
+        phoneGroup.rotation.x += (targetRotationX - phoneGroup.rotation.x) * 0.05;
+
+        // Subtle floating animation
+        phoneGroup.position.y = Math.sin(Date.now() * 0.001) * 0.1;
+
+        renderer.render(scene, camera);
+    }
+
+    // Handle window resize
+    window.addEventListener('resize', () => {
+        const newWidth = container.clientWidth;
+        const newHeight = container.clientHeight;
+        camera.aspect = newWidth / newHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(newWidth, newHeight);
+    });
+
+    animate();
     </script>
 </body>
 </html>
