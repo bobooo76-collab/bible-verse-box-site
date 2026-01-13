@@ -204,6 +204,33 @@
             vertical-align: -0.1em;
             display: inline-block;
         }
+
+        .download-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .platform-badge {
+            font-size: 0.95em;
+            color: #27ae60;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        /* Mobile - слиза на нов ред */
+        @media (max-width: 768px) {
+        .download-section {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        .platform-badge {
+            margin-left: 0;
+            align-self: center;
+        }
         
         /* Footer */
         footer {
@@ -285,12 +312,19 @@
                 Learn and memorize Bible verses easily and quickly
             </p>
             
-            <a href="https://archive.org/download/bible-verse-memorizer-bg/Bible%20Verse%20Memorizer_bg.apk" 
-               class="download-btn" 
-               data-en="📥 Download" 
-               data-bg="📥 Изтегли">
-                📥 Download
-            </a>          
+            <div class="download-section">
+    <a href="https://archive.org/download/bible-verse-memorizer-bg/Bible%20Verse%20Memorizer_bg.apk" 
+       class="download-btn" 
+       data-en="📥 Download" 
+       data-bg="📥 Изтегли">
+        📥 Download
+    </a>
+    <span class="platform-badge" 
+          data-en="(🤖 For Android devices)" 
+          data-bg="(🤖 За Android устройства)">
+        (🤖 For Android devices)
+    </span>
+</div>     
             <div class="features">
                 <h3 data-en="🎯 Key Features" data-bg="🎯 Основни функции">
                     🎯 Key Features
