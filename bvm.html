@@ -1,1 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bible Verse Memorizer - Download Free</title>
+    <meta name="description" content="Learn and memorize Bible verses easily and quickly with our free app">
+    <link rel="icon" type="image/png" href="image/bible_white_64.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, sans-serif; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px 20px 20px;
+        }
+        
+        .container { 
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 0;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+        
+        /* Left side - 3D Phone */
+        .phone-section {
+            flex: 1;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 50px;
+            margin-bottom: 30px;
+        }
+        
+        /* Language switcher above phone */
+        .lang-switcher {
+            display: flex;
+            gap: 10px;
+            background: white;
+            padding: 10px;
+            border-radius: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .lang-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            background: transparent;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s;
+            color: #555;
+        }
+        .lang-btn.active {
+            background: #667eea;
+            color: white;
+        }
+        .lang-btn:hover {
+            background: #e3f2fd;
+        }
+        .lang-btn.active:hover {
+            background: #5568d3;
+        }
+        
+        /* 3D Canvas container */
+        #phone-canvas-container {
+            width: 100%;
+            max-width: 400px;
+            height: 600px;
+            position: relative;
+        }
+        #phone-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        #canvas-info {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 12px;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.3);
+            padding: 5px 10px;
+            border-radius: 10px;
+        }
+        
+        /* Right side - Information */
+        .info-section {
+            flex: 1;
+            min-width: 350px;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        h1 { 
+            color: #2c3e50; 
+            margin-bottom: 10px; 
+            font-size: 2em;
+        }
+        .subtitle {
+            font-size: 1.1em; 
+            color: #7f8c8d; 
+            margin-bottom: 20px;
+        }
+        .download-btn { 
+            background: #27ae60; 
+            color: white; 
+            padding: 12px 28px; 
+            border: none; 
+            border-radius: 50px; 
+            font-size: 1em; 
+            cursor: pointer; 
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 10px;
+            transition: all 0.3s;
+        }
+        .download-btn:hover { 
+            background: #229954; 
+            transform: translateY(-2px); 
+        }
+        .features { 
+            margin: 10px 0;
+        }
+        .features h3 {
+            color: #2c3e50;
+            margin-bottom: 12px;
+            font-size: 1.2em;
+        }
+        .features ul { 
+            list-style: none;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px 15px;
+        }
+        .features li { 
+            padding: 4px 0;
+            font-size: 0.92em;
+            color: #555;
+            line-height: 1.2;
+            word-wrap: break-word;
+        }
+        .features li:before { 
+            content: "✨"; 
+            margin-right: 8px; 
+            flex-shrink: 0;
+        }
+        
+        /* JSON links style */
+        .json-section { 
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #ecf0f1;
+        }
+        .json-section h3 {
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+        .json-section p {
+            font-size: 0.85em; 
+            color: #7f8c8d; 
+            margin-bottom: 10px;
+        }
+        .json-links {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+        }
+        .json-link { 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background: #e3f2fd; 
+            color: #1976d2; 
+            padding: 10px 8px; 
+            text-decoration: none; 
+            border-radius: 10px;
+            font-size: 0.85em;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .json-link:hover {
+            background: #bbdefb;
+            transform: translateY(-2px);
+        }
+        
+        /* Twemoji flag styles */
+        img.emoji {
+            height: 1.2em;
+            width: 1.2em;
+            margin: 0 .05em 0 .1em;
+            vertical-align: -0.1em;
+            display: inline-block;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            color: white;
+            font-size: 0.85em;
+            white-space: nowrap;
+        }
 
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 15px 15px 15px;
+            }
+            .container {
+                flex-direction: column;
+                align-items: center;
+                gap: 30px;
+            }
+            .phone-section {
+                gap: 30px;
+                margin-bottom: 20px;
+            }
+            #phone-canvas-container {
+                max-width: 300px;
+                height: 500px;
+            }
+            .info-section {
+                padding: 25px;
+                width: 100%;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+            .json-links {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .features ul {
+                grid-template-columns: 1fr;
+            }
+            footer {
+                font-size: 0.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Left side - 3D Phone -->
+        <div class="phone-section">
+            <!-- Language Switcher above phone -->
+            <div class="lang-switcher">
+                <button class="lang-btn active" data-lang="en">🇬🇧 English</button>
+                <button class="lang-btn" data-lang="bg">🇧🇬 Български</button>
+            </div>
+            
+            <!-- 3D Phone Canvas -->
+            <div id="phone-canvas-container">
+                <canvas id="phone-canvas"></canvas>
+                <div id="canvas-info">Завъртете с мишката или докоснете</div>
+            </div>
+            
+            <!-- Footer under phone -->
+            <footer>
+                <p data-en="Made with ❤️ for God's glory" data-bg="Създадено с ❤️ за Божията слава">
+                    Made with ❤️ for God's glory
+                </p>
+            </footer>
+        </div>
+        
+        <!-- Right side - Information -->
+        <div class="info-section">
+            <h1 data-en="📖 Bible Verse Memorizer" data-bg="📖 Bible Verse Memorizer">
+                📖 Bible Verse Memorizer
+            </h1>
+            <p class="subtitle" data-en="Learn and memorize Bible verses easily and quickly" 
+               data-bg="Учи и запомняй библейски стихове лесно и бързо">
+                Learn and memorize Bible verses easily and quickly
+            </p>
+            
+            <a href="https://archive.org/download/bible-verse-memorizer-bg/Bible%20Verse%20Memorizer_bg.apk" 
+               class="download-btn" 
+               data-en="📥 Download" 
+               data-bg="📥 Изтегли">
+                📥 Download
+            </a>           
+            <div class="features">
+                <h3 data-en="🎯 Key Features" data-bg="🎯 Основни функции">
+                    🎯 Key Features
+                </h3>
+                <ul>
+                    <li data-en="Support for 10 languages" 
+                        data-bg="Поддържка на 10 езика">
+                        Support for 10 languages
+                    </li>
+                    <li data-en="10 light color themes" 
+                        data-bg="10 светли цветови теми">
+                        10 light color themes
+                    </li>
+                    <li data-en="10 dark color themes" 
+                        data-bg="10 тъмни цветови теми">
+                        10 dark color themes
+                    </li>
+                    <li data-en="Persistent reminder in status bar" 
+                        data-bg="Постоянно напомняне в статус бара">
+                        Persistent reminder in status bar
+                    </li>
+                    <li data-en="Reminders at your chosen time" 
+                        data-bg="Напомняния по избран от вас час">
+                        Reminders at your chosen time
+                    </li>
+                    <li data-en="Simple, beautiful and convenient design" 
+                        data-bg="Семпъл, красив и удобен дизайн">
+                        Simple, beautiful and convenient design
+                    </li>
+                    <li data-en="Font selection for verses" 
+                        data-bg="Избор на шрифт за стиховете">
+                        Font selection for verses
+                    </li>
+                    <li data-en="Font size selection" 
+                        data-bg="Избор на размера на шрифта">
+                        Font size selection
+                    </li>
+                    <li data-en="Easy button to add 60+ important Bible verses" 
+                        data-bg="Бутон за лесно добавяне на 60+ важни стихове от Библията">
+                        Easy button to add 60+ important Bible verses
+                    </li>
+                    <li data-en="Save verse archive on your phone" 
+                        data-bg="Запазване на архив на стиховете на телефона">
+                        Save verse archive on your phone
+                    </li>
+                    <li data-en="Import verses from your phone or another device" 
+                        data-bg="Импортиране на стихове от вашият телефона или друго устройство">
+                        Import verses from your phone or another device
+                    </li>
+                    <li data-en="Easy sharing in WhatsApp, Messenger, Viber, etc." 
+                        data-bg="Лесно споделяне на стиховете във WhatsApp, Messenger, Viber и др.">
+                        Easy sharing in WhatsApp, Messenger, Viber, etc.
+                    </li>
+                    <li data-en="Speak verse aloud" 
+                        data-bg="Изговаряне на стиха на глас">
+                        Speak verse aloud
+                    </li>
+                    <li data-en="Easy verse editing" 
+                        data-bg="Лесно редактиране на стихове">
+                        Easy verse editing
+                    </li>
+                    <li data-en="Protected verse deletion" 
+                        data-bg="Защитено изтриване на стихове">
+                        Protected verse deletion
+                    </li>
+                    <li data-en="Sort verses by text, reference, or folder" 
+                        data-bg="Сортиране на стиховете по текст, по препратка и по папка">
+                        Sort verses by text, reference, or folder
+                    </li>
+                    <li data-en="Easy search by verses and reference" 
+                        data-bg="Лесно търсене по стихове и референция">
+                        Easy search by verses and reference
+                    </li>
+                    <li data-en="Organization in folders" 
+                        data-bg="Организация в папки">
+                        Organization in folders
+                    </li>
+                    <li data-en="Mark learned verses" 
+                        data-bg="Отбелязване на научените стихове">
+                        Mark learned verses
+                    </li>
+                    <li data-en="Mark active verse for status bar display" 
+                        data-bg="Отбелязване на активния стих за показване в статус бара">
+                        Mark active verse for status bar display
+                    </li>
+                </ul>
+            </div>
+            <div class="json-section">
+                <h3 data-en="☁️ Recommended Verses" data-bg="☁️ Препоръчани стихове">
+                    ☁️ Recommended Verses
+                </h3>
+                <p data-en="Choose your language and download ready-made file:" 
+                   data-bg="Избери език и изтегли готов файл:">
+                    Choose your language and download ready-made file:
+                </p>
+                <div class="json-links">
+                    <a href="verses/en.json" class="json-link" download>
+                        🇬🇧 English
+                    </a>
+                    <a href="verses/bg.json" class="json-link" download>
+                        🇧🇬 <span data-en="Bulgarian" data-bg="Български">Bulgarian</span>
+                    </a>
+                    <a href="verses/ru.json" class="json-link" download>
+                        🇷🇺 <span data-en="Russian" data-bg="Руски">Russian</span>
+                    </a>
+                    <a href="verses/ro.json" class="json-link" download>
+                        🇷🇴 <span data-en="Romanian" data-bg="Румънски">Romanian</span>
+                    </a>
+                    <a href="verses/es.json" class="json-link" download>
+                        🇪🇸 <span data-en="Spanish" data-bg="Испански">Spanish</span>
+                    </a>
+                    <a href="verses/de.json" class="json-link" download>
+                        🇩🇪 <span data-en="German" data-bg="Немски">German</span>
+                    </a>
+                    <a href="verses/it.json" class="json-link" download>
+                        🇮🇹 <span data-en="Italian" data-bg="Италиански">Italian</span>
+                    </a>
+                    <a href="verses/pl.json" class="json-link" download>
+                        🇵🇱 <span data-en="Polish" data-bg="Полски">Polish</span>
+                    </a>
+                    <a href="verses/uk.json" class="json-link" download>
+                        🇺🇦 <span data-en="Ukrainian" data-bg="Украински">Ukrainian</span>
+                    </a>
+                    <a href="verses/cs.json" class="json-link" download>
+                        🇨🇿 <span data-en="Czech" data-bg="Чешки">Czech</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@twemoji/api@latest/dist/twemoji.min.js" crossorigin="anonymous"></script>
+    <script>
+    // [СЪЩИЯТ JavaScript КОД ОСТАВА БЕЗ ПРОМЯНА - копирай го от оригинала]
+    // Language Switcher Logic
+    const langButtons = document.querySelectorAll('.lang-btn');
+    const translatableElements = document.querySelectorAll('[data-en][data-bg]');
+    
+    function detectLanguage() {
+        const browserLang = navigator.language || navigator.userLanguage;
+        return browserLang.startsWith('bg') ? 'bg' : 'en';
+    }
+    
+    function switchLanguage(lang) {
+        translatableElements.forEach(el => {
+            const text = el.getAttribute('data-' + lang);
+            if (text) {
+                el.textContent = text;
+            }
+        });
+        
+        langButtons.forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.getAttribute('data-lang') === lang) {
+                btn.classList.add('active');
+            }
+        });
+        
+        const canvasInfo = document.getElementById('canvas-info');
+        if (lang === 'bg') {
+            canvasInfo.textContent = 'Завъртете с мишката или докоснете';
+        } else {
+            canvasInfo.textContent = 'Drag with mouse or touch';
+        }
+        
+        document.documentElement.lang = lang;
+        localStorage.setItem('preferred-language', lang);
+    }
+    
+    langButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const lang = btn.getAttribute('data-lang');
+            switchLanguage(lang);
+        });
+    });
+    
+    window.addEventListener('DOMContentLoaded', () => {
+        const savedLang = localStorage.getItem('preferred-language');
+        const lang = savedLang || detectLanguage();
+        switchLanguage(lang);
+        
+        twemoji.parse(document.body, {
+            folder: 'svg',
+            ext: '.svg'
+        });
+    });
+
+    // [Копирай целия 3D phone код тук - остава същият]
+    </script>
+</body>
+</html>
