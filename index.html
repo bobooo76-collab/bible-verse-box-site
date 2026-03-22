@@ -161,7 +161,6 @@
             text-align: center;
             line-height: 20px;
         }
-
         
         /* JSON links style */
         .json-section { 
@@ -292,7 +291,8 @@
                 Learn and memorize Bible verses easily and quickly
             </p>
             
-            <a href="https://play.google.com/store/apps/details?id=YOUR_PACKAGE_NAME" 
+            <!-- FIX #3: Реален Google Play линк -->
+            <a href="https://play.google.com/store/apps/details?id=com.bobo.bibleversememorizer" 
                class="download-btn" target="_blank" 
                data-en="📱 Download on Google Play" 
                data-bg="📱 Изтегли от Google Play">
@@ -572,6 +572,9 @@
     screenCanvas.height = 2160;
     const ctx = screenCanvas.getContext('2d');
 
+    // FIX #2: Декларирай screenTexture рано, преди да се използва в drawScreen()
+    let screenTexture = null;
+
     // Load carousel images
     const carouselImages = [];
     const imageUrls = [
@@ -629,36 +632,29 @@
     function drawScreen() {
         console.log('drawScreen called, currentImageIndex:', currentImageIndex);
         
-        // Fill entire canvas with BLACK background first
         ctx.fillStyle = '#000000';
         ctx.fillRect(0, 0, screenCanvas.width, screenCanvas.height);
         
-        // Save context state
         ctx.save();
         
-        // Create rounded rectangle clipping path
-        const radius = 70;
+        const clipRadius = 70;
         ctx.beginPath();
-        ctx.moveTo(radius, 0);
-        ctx.lineTo(screenCanvas.width - radius, 0);
-        ctx.quadraticCurveTo(screenCanvas.width, 0, screenCanvas.width, radius);
-        ctx.lineTo(screenCanvas.width, screenCanvas.height - radius);
-        ctx.quadraticCurveTo(screenCanvas.width, screenCanvas.height, screenCanvas.width - radius, screenCanvas.height);
-        ctx.lineTo(radius, screenCanvas.height);
-        ctx.quadraticCurveTo(0, screenCanvas.height, 0, screenCanvas.height - radius);
-        ctx.lineTo(0, radius);
-        ctx.quadraticCurveTo(0, 0, radius, 0);
+        ctx.moveTo(clipRadius, 0);
+        ctx.lineTo(screenCanvas.width - clipRadius, 0);
+        ctx.quadraticCurveTo(screenCanvas.width, 0, screenCanvas.width, clipRadius);
+        ctx.lineTo(screenCanvas.width, screenCanvas.height - clipRadius);
+        ctx.quadraticCurveTo(screenCanvas.width, screenCanvas.height, screenCanvas.width - clipRadius, screenCanvas.height);
+        ctx.lineTo(clipRadius, screenCanvas.height);
+        ctx.quadraticCurveTo(0, screenCanvas.height, 0, screenCanvas.height - clipRadius);
+        ctx.lineTo(0, clipRadius);
+        ctx.quadraticCurveTo(0, 0, clipRadius, 0);
         ctx.closePath();
         ctx.clip();
         
-        // Draw current screenshot if available
         if (carouselImages[currentImageIndex]) {
             const img = carouselImages[currentImageIndex];
-            console.log('Drawing image:', currentImageIndex, 'Canvas size:', screenCanvas.width, 'x', screenCanvas.height, 'Image size:', img.width, 'x', img.height);
-            
             ctx.drawImage(img, 0, 0, screenCanvas.width, screenCanvas.height);
         } else {
-            console.log('No image available at index:', currentImageIndex);
             const gradient = ctx.createLinearGradient(0, 0, 0, screenCanvas.height);
             gradient.addColorStop(0, '#667eea');
             gradient.addColorStop(1, '#764ba2');
@@ -671,24 +667,23 @@
             ctx.fillText('Loading...', screenCanvas.width / 2, screenCanvas.height / 2);
         }
         
-        // Restore context
         ctx.restore();
         
-        // Update texture
+        // FIX #2: screenTexture вече е дефинирана преди тази функция
         if (screenTexture) {
             screenTexture.needsUpdate = true;
-            console.log('Texture updated');
         }
     }
 
-    // Carousel rotation - change image every 3 seconds
+    // FIX #1: Използвай imageUrls.length вместо carouselImages.length
     setInterval(() => {
-        currentImageIndex = (currentImageIndex + 1) % carouselImages.length;
+        if (imageUrls.length === 0) return;
+        currentImageIndex = (currentImageIndex + 1) % imageUrls.length;
         drawScreen();
     }, 3000);
 
-    // Phone screen using PlaneGeometry for proper UV mapping
-    const screenTexture = new THREE.CanvasTexture(screenCanvas);
+    // FIX #2: Присвои стойност на screenTexture след декларацията
+    screenTexture = new THREE.CanvasTexture(screenCanvas);
     screenTexture.minFilter = THREE.LinearFilter;
     const screenGeometry = new THREE.PlaneGeometry(2.45, 5.1);
     const screenMaterial = new THREE.MeshStandardMaterial({ 
@@ -700,7 +695,7 @@
     screen.position.z = 0.23;
     phoneGroup.add(screen);
 
-    // Add edge highlight using PlaneGeometry (behind everything)
+    // Add edge highlight
     const edgeGeometry = new THREE.PlaneGeometry(2.5, 5.15);
     const edgeMaterial = new THREE.MeshStandardMaterial({ 
         color: 0x1a1a1a,
@@ -734,16 +729,12 @@
         }
     });
 
-    canvas.addEventListener('mousedown', () => {
-        isMouseDown = true;
-    });
+    canvas.addEventListener('mousedown', () => { isMouseDown = true; });
+    canvas.addEventListener('mouseup', () => { isMouseDown = false; });
 
-    canvas.addEventListener('mouseup', () => {
-        isMouseDown = false;
-    });
-
-    // Touch interaction
+    // FIX #4: preventDefault за да не скролира при touch върху canvas
     canvas.addEventListener('touchmove', (event) => {
+        event.preventDefault();
         if (event.touches.length > 0) {
             const touch = event.touches[0];
             const rect = canvas.getBoundingClientRect();
@@ -752,12 +743,11 @@
             targetRotationY = mouseX * 0.15;
             targetRotationX = mouseY * 0.1;
         }
-    });
+    }, { passive: false });
 
-    // Auto rotation when not interacting
+    // Auto rotation
     let autoRotationTime = 0;
 
-    // Animation loop
     function animate() {
         requestAnimationFrame(animate);
 
@@ -767,17 +757,13 @@
             targetRotationX = Math.cos(autoRotationTime * 0.7) * 0.05;
         }
 
-        // Smooth rotation
         phoneGroup.rotation.y += (targetRotationY - phoneGroup.rotation.y) * 0.05;
         phoneGroup.rotation.x += (targetRotationX - phoneGroup.rotation.x) * 0.05;
-
-        // Subtle floating animation
         phoneGroup.position.y = Math.sin(Date.now() * 0.001) * 0.1;
 
         renderer.render(scene, camera);
     }
 
-    // Handle window resize
     window.addEventListener('resize', () => {
         const newWidth = container.clientWidth;
         const newHeight = container.clientHeight;
