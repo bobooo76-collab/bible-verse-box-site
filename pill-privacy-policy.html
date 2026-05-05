@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Privacy Policy — Pill Reminder Plus</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --mint: #3ecfb2;
+      --mint-soft: #e8faf6;
+      --mint-mid: #b2ede3;
+      --dark: #0f1f1c;
+      --text: #1a2e2a;
+      --muted: #6b8c84;
+      --border: #d0ece6;
+      --bg: #f5fcfa;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 16px;
+    }
+
+    /* ── Header ── */
+    header {
+      background: var(--dark);
+      padding: 48px 24px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 120%, rgba(62,207,178,0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .pill-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 64px;
+      height: 64px;
+      background: linear-gradient(135deg, var(--mint), #2ab8a0);
+      border-radius: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 32px rgba(62,207,178,0.35);
+    }
+
+    .pill-icon svg {
+      width: 36px;
+      height: 36px;
+      fill: white;
+    }
+
+    header h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      color: #fff;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+
+    header h1 span {
+      color: var(--mint);
+      font-style: italic;
+    }
+
+    .header-sub {
+      margin-top: 10px;
+      color: var(--mint-mid);
+      font-size: 0.9rem;
+      font-weight: 300;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── Layout ── */
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 56px 24px 80px;
+    }
+
+    /* ── Intro card ── */
+    .intro-card {
+      background: white;
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 32px;
+      margin-bottom: 48px;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .intro-card .dot {
+      flex-shrink: 0;
+      width: 10px;
+      height: 10px;
+      background: var(--mint);
+      border-radius: 50%;
+      margin-top: 7px;
+    }
+
+    .intro-card p {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    /* ── Section ── */
+    section {
+      margin-bottom: 44px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .section-num {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      background: var(--mint-soft);
+      border: 1.5px solid var(--mint-mid);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'DM Serif Display', serif;
+      font-size: 1rem;
+      color: var(--mint);
+    }
+
+    h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.35rem;
+      color: var(--dark);
+      letter-spacing: -0.01em;
+    }
+
+    p {
+      color: var(--text);
+      font-size: 0.97rem;
+      margin-bottom: 12px;
+    }
+
+    p:last-child { margin-bottom: 0; }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 12px 0;
+    }
+
+    ul li {
+      padding: 8px 0 8px 24px;
+      position: relative;
+      font-size: 0.97rem;
+      color: var(--text);
+      border-bottom: 1px solid var(--border);
+    }
+
+    ul li:last-child { border-bottom: none; }
+
+    ul li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 7px;
+      height: 7px;
+      background: var(--mint);
+      border-radius: 50%;
+    }
+
+    /* ── Highlight box ── */
+    .highlight {
+      background: var(--mint-soft);
+      border-left: 3px solid var(--mint);
+      border-radius: 0 10px 10px 0;
+      padding: 16px 20px;
+      margin: 16px 0;
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+
+    /* ── Divider ── */
+    hr {
+      border: none;
+      border-top: 1.5px solid var(--border);
+      margin: 44px 0;
+    }
+
+    /* ── Contact ── */
+    .contact-block {
+      background: var(--dark);
+      border-radius: 16px;
+      padding: 32px;
+      color: white;
+      text-align: center;
+    }
+
+    .contact-block h2 {
+      color: white;
+      font-family: 'DM Serif Display', serif;
+      margin-bottom: 10px;
+    }
+
+    .contact-block p {
+      color: var(--mint-mid);
+      font-size: 0.92rem;
+      margin-bottom: 20px;
+    }
+
+    .contact-block a {
+      display: inline-block;
+      background: var(--mint);
+      color: var(--dark);
+      font-weight: 500;
+      text-decoration: none;
+      padding: 12px 28px;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      transition: opacity 0.2s;
+    }
+
+    .contact-block a:hover { opacity: 0.85; }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 24px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      border-top: 1.5px solid var(--border);
+    }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    header > * { animation: fadeUp 0.6s ease both; }
+    header .pill-icon { animation-delay: 0.05s; }
+    header h1        { animation-delay: 0.15s; }
+    header .header-sub { animation-delay: 0.25s; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="pill-icon">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4.22 11.29l6.49-6.49a5 5 0 0 1 7.07 7.07l-6.49 6.49a5 5 0 0 1-7.07-7.07zm9.19 1.06L9.17 8.11 6.34 10.94a3 3 0 0 0 4.24 4.24l2.83-2.83z"/>
+    </svg>
+  </div>
+  <h1>Pill Reminder <span>Plus</span></h1>
+  <p class="header-sub">Privacy Policy &nbsp;·&nbsp; Last updated: May 2025</p>
+</header>
+
+<div class="container">
+
+  <div class="intro-card">
+    <div class="dot"></div>
+    <p>This Privacy Policy explains how <strong>Pill Reminder Plus</strong> handles your information. We are committed to protecting your privacy — your health data stays on your device and is never shared with third parties.</p>
+  </div>
+
+  <!-- 1 -->
+  <section>
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <h2>Information We Collect</h2>
+    </div>
+    <p>Pill Reminder Plus operates entirely on your device. The app collects and stores the following data <strong>locally only</strong>:</p>
+    <ul>
+      <li>Medication names, dosages, and schedules you enter</li>
+      <li>User profiles you create within the app</li>
+      <li>Dose history and adherence logs</li>
+      <li>App preferences (theme, language, notification settings)</li>
+    </ul>
+    <div class="highlight">
+      We do not collect, transmit, or store any of your data on external servers. Everything remains on your device.
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section>
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <h2>How We Use Your Information</h2>
+    </div>
+    <p>The information you provide is used solely to:</p>
+    <ul>
+      <li>Display your medication schedule and reminders</li>
+      <li>Send local push notifications at the times you set</li>
+      <li>Track your dose history for your personal reference</li>
+      <li>Personalise the app experience (language, theme)</li>
+    </ul>
+  </section>
+
+  <!-- 3 -->
+  <section>
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <h2>Data Storage & Security</h2>
+    </div>
+    <p>All data is stored in a local SQLite database on your device using the <code>sqflite</code> package. Preferences are stored via <code>shared_preferences</code>. No data leaves your device under any circumstances.</p>
+    <p>Security of your data depends on your device's own security features (screen lock, encryption). We recommend keeping your device secured.</p>
+  </section>
+
+  <!-- 4 -->
+  <section>
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <h2>Notifications</h2>
+    </div>
+    <p>Pill Reminder Plus uses local notifications to remind you to take your medications. These notifications are generated entirely on your device and do not involve any network communication or third-party notification services.</p>
+    <p>You can disable notifications at any time through the app settings or your device's system settings.</p>
+  </section>
+
+  <!-- 5 -->
+  <section>
+    <div class="section-header">
+      <div class="section-num">5</div>
+      <h2>Third-Party Services</h2>
+    </div>
+    <p>Pill Reminder Plus does <strong>not</strong> integrate any third-party analytics, advertising, or tracking services. The app does not use:</p>
+    <ul>
+      <li>Google Analytics or Firebase Analytics</li>
+      <li>Facebook SDK or any social media SDKs</li>
+      <li>Advertising networks or ad SDKs</li>
+      <li>Crash reporting services that transmit data externally</li>
+    </ul>
+  </section>
+
+  <!-- 6 -->
+  <section>
+    <div class="section-header">
+      <div class="section-num">6</div>
+      <h2>Data Sharing</h2>
+    </div>
+    <p>We do not sell, trade, or share your personal data with any third parties. Your medication and health information is private and remains exclusively on your device.</p>
+    <div class="highlight">
+      The export feature (PDF/file export) is entirely user-initiated. Exported files go directly to your chosen destination — we have no access to them.
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section>
+    <div class="section-header">
+      <div class="section-num">7</div>
+      <h2>Children's Privacy</h2>
+    </div>
+    <p>Pill Reminder Plus does not knowingly collect personal information from children under 13. The app may be used by caregivers to manage medications for children, but all data remains local to the device.</p>
+  </section>
+
+  <!-- 8 -->
+  <section>
+    <div class="section-header">
+      <div class="section-num">8</div>
+      <h2>Your Rights</h2>
+    </div>
+    <p>Since all data is stored locally on your device, you have full control over it at all times. You can:</p>
+    <ul>
+      <li>View all your data directly within the app</li>
+      <li>Delete individual medications or entire profiles</li>
+      <li>Clear all history from the app settings</li>
+      <li>Uninstall the app to permanently remove all data</li>
+    </ul>
+  </section>
+
+  <!-- 9 -->
+  <section>
+    <div class="section-header">
+      <div class="section-num">9</div>
+      <h2>Changes to This Policy</h2>
+    </div>
+    <p>We may update this Privacy Policy from time to time. Any changes will be reflected on this page with an updated date. We encourage you to review this policy periodically.</p>
+  </section>
+
+  <hr/>
+
+  <div class="contact-block">
+    <h2>Questions?</h2>
+    <p>If you have any questions about this Privacy Policy or how your data is handled, feel free to reach out.</p>
+    <a href="mailto:support@pillreminderplus.app">Contact Us</a>
+  </div>
+
+</div>
+
+<footer>
+  &copy; 2025 Pill Reminder Plus &nbsp;·&nbsp; All rights reserved
+</footer>
+
+</body>
+</html>
